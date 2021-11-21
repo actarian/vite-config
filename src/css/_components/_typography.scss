@@ -1,0 +1,29 @@
+body {
+	font-size: inherit;
+	font-family: $font-primary;
+	font-weight: $font-light;
+	line-height: $line-height;
+	letter-spacing: $letter-spacing;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+	background: $background;
+	color: $foreground;
+}
+
+::selection {
+	background: yellow;
+	color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	margin: 0;
+	padding: 0;
+}

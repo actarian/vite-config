@@ -1,0 +1,50 @@
+{% set base = "/vite-config/" %}
+{% set title = "Vite Config" %}
+{% set description = "Vite Config Description" %}
+{% set url = "https://actarian.github.io/vite-config" %}
+{% set image = "https://avatars.githubusercontent.com/u/1841442?s=460&u=9d963e264cc39206782c9e0dbfdbdb0c6d25b477&v=4" %}
+{% set color = "#ffffff" %}
+{% extends "src/templates/layout.html" %}
+{% block main %}
+
+  <div class="hero">
+    <div class="container">
+      <div class="hero__content">
+        <div class="hero__title">Hero</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" section>
+    <div class="container">
+      <div class="section__content">
+        <div class="section__title">01</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" section>
+    <div class="container">
+      <div class="section__content">
+        <div class="section__title">02</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" section>
+    <div class="container">
+      <div class="section__content">
+        <div class="section__title">03</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" lazy-section>
+    <div class="container">
+      <div class="section__content">
+        <div class="section__title">04</div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

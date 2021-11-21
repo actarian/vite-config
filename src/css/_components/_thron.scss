@@ -1,0 +1,236 @@
+.thron {
+
+	/*
+* === START COLORIZATION ===
+*/
+
+	/* BACKGROUND SCROLLBAR */
+
+
+	/* Track */
+
+	&.th-player-external-element *::-webkit-scrollbar-track,
+	&.player *::-webkit-scrollbar-track {
+		background-color: #383838;
+	}
+
+
+	/* Handle */
+
+	&.th-player-external-element *::-webkit-scrollbar-thumb:vertical,
+	&.player *::-webkit-scrollbar-thumb:vertical {
+		background-color: #666;
+		border-width: 0px;
+	}
+
+	&.th-player-external-element *::-webkit-scrollbar-thumb:horizontal,
+	&.player *::-webkit-scrollbar-thumb:horizontal {
+		background-color: #666;
+		border-width: 0px;
+	}
+
+	&.th-player-external-element *::-webkit-scrollbar-thumb:window-inactive,
+	&.player *::-webkit-scrollbar-thumb:window-inactive {
+		background-color: #737474;
+	}
+
+
+	/* BACKGROUND COLORS */
+
+
+	/* Player Background Color */
+
+	&.th-audio .th-media-bg-color,
+	&.th-video .th-media-bg-color,
+	&.th-image .th-media-bg-color,
+	&.th-liveevent .th-media-bg-color,
+	&.th-videogallery .th-media-bg-color,
+	&.th-imagegallery .th-media-bg-color,
+	&.th-audiogallery .th-media-bg-color {
+		background-color: rgba(0, 0, 0, 1);
+	}
+
+	&.th-url .th-media-bg-color,
+	&.th-other .th-media-bg-color {
+		background-color: rgba(0, 0, 0, 1);
+	}
+
+	&.th-pagelet .th-media-bg-color {
+		background: #ffffff;
+	}
+
+	&.th-other-document .th-media-bg-color {
+		background-color: #343434;
+	}
+
+	&.th-other-document .th-loading-bar .th-progress {
+		background-color: #A19C96;
+	}
+
+
+	/* Control bar Background */
+
+	.th-control-bg-color {
+		background-color: transparent; // rgba(53, 48, 44, 0.5);
+	}
+
+
+	/* Overlay Background. For example share view background */
+
+	.th-overlay-bg-color {
+		background-color: transparent; // rgba(53, 48, 44, 0.5);
+	}
+
+
+	/** TEXT COLOR **/
+
+	.th-text-color {
+		color: #ffffff;
+	}
+
+	.th-text-color * {
+		color: #ffffff;
+	}
+
+
+	/* Active text. For example, tooltips active items */
+
+	.th-text-active-color {
+		color: #A19C96;
+	}
+
+	.th-text-active-color * {
+		color: #A19C96;
+	}
+
+
+	/** BUTTONS COLOR **/
+
+
+	/* Button Color */
+
+	.th-button-color {
+		fill: #ffffff;
+		color: #ffffff;
+	}
+
+	.th-button-color:not(.th-hover-disabled):not(.th-button-disabled):hover {
+		fill: #A19C96;
+	}
+
+
+	/* For example, play icon in center of video reproducer */
+
+	.th-clickable-overlay:hover .th-button-color:not(.th-hover-disabled):not(.th-button-disabled) {
+		fill: #A19C96;
+	}
+
+
+	/* For example, in mobile hover color play icon in center of video reproducer  */
+
+	&.th-mobile .th-button-color:hover:not(.th-hover-disabled):not(.th-button-disabled):not(.th-button-color-active) {
+		fill: #A19C96;
+	}
+
+
+	/* For example, in mobile hover color play/pause/speed   */
+
+	&.th-mobile .th-clickable-overlay:hover .th-button-color:not(.th-hover-disabled):not(.th-button-disabled) {
+		fill: #A19C96;
+	}
+
+
+	/* Disabled Button Color */
+
+	.th-button-disabled {
+		fill: #737474;
+		color: #737474;
+	}
+
+
+	/* When tooltips is open, button assumes this color */
+
+	.th-button-color-active {
+		fill: #A19C96;
+	}
+
+
+	/* SLIDER COLORS */
+
+
+	/* Svg gradient, actually used only for volume */
+
+	.th-svg-gradient.th-bg-stop-color {
+		stop-color: #A19C96;
+	}
+
+	.th-svg-gradient.th-overlay-stop-color {
+		stop-color: #ffffff;
+	}
+
+
+	/* Filled slider background color */
+
+	.th-components-bg-color {
+		stroke: #A19C96;
+		background-color: #A19C96;
+	}
+
+
+	/* Empty slider element background color */
+
+	.th-slider-bg-color {
+		stroke: #ffffff;
+		background-color: #ffffff;
+	}
+
+
+	/* This Css class defines the color of the selected text by the user. Used for example in document player */
+
+	.th-selectable-container::-moz-selection {
+		background-color: #A19C96;
+	}
+
+	.th-selectable-container ::selection {
+		background-color: #A19C96;
+	}
+
+
+	/* Highlighted elements, used for example in doc player to highlight text */
+
+	.th-highlighted-hover:hover {
+		opacity: 0.2;
+		background-color: #A19C96;
+	}
+
+	.th-highlighted-item {
+		background-color: #A19C96;
+	}
+
+
+	/* Error background */
+
+	.th-bg-error {
+		background-color: #282829;
+	}
+
+
+	/* bordered element */
+
+	.th-item-selected {
+		border: 2px solid #A19C96;
+	}
+
+
+	/* external linked bar */
+
+	.th-external-linked-carousel .th-linked-carousel .th-button-color {
+		fill: transparent; // rgba(53, 48, 44, 0.5);
+	}
+
+
+	/*
+* === END COLORIZATION ===
+*/
+
+}

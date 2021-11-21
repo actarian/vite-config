@@ -1,0 +1,15 @@
+.hero, .section {
+  &__content {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    box-shadow: 0 20px 20px -10px rgb(0, 0, 0, 0.1);
+}
+
+  &__title {
+    font-size: 80px;
+    text-align: center;
+  }
+}
