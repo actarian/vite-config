@@ -21,6 +21,12 @@ export class Component {
 		this.onDestroy();
 		this.node = null;
 		this.unsubscribe$ = null;
+		Component.instances.forEach(instances => {
+			const index = instances.indexOf(this);
+			if (index !== -1) {
+				instances.splice(index, 1);
+			}
+		});
 	}
 
 	static create(html) {

@@ -13,7 +13,7 @@ function registerApp$(parent = document) {
 
 window.addEventListener('DOMContentLoaded', () => {
 	registerApp$(document).subscribe(instances => {
-		console.log('registerComponents$', instances.length, instances[instances.length - 1]);
+		// console.log('registerComponents$', instances.length, instances[instances.length - 1]);
 	});
 });
 
