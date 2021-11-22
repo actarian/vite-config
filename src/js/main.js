@@ -5,8 +5,8 @@ import { SectionComponent } from './components/section.component';
 
 function registerApp$(parent = document) {
 	return Component.register$([
-		AppComponent,
-		SectionComponent,
+		[AppComponent, '[app]'],
+		[SectionComponent, '[section]'],
 		['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
 	], parent);
 };
