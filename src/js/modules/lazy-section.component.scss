@@ -1,4 +1,9 @@
 [lazy-section] {
-  background: black;
-  color: white;
+	background: black;
+	color: white;
+
+	.section__content {
+		border: 1px solid rgb(255, 255, 255, 0.1);
+		box-shadow: 0 20px 20px -10px rgb(255, 255, 255, 0.1);
+	}
 }

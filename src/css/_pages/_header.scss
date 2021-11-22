@@ -1,3 +1,20 @@
-header {
-    min-height: 80px;
+.header {
+	&__content {
+		display: flex;
+		align-items: center;
+		min-height: 80px;
+	}
+}
+
+.nav--main {
+	@extend %nav;
+
+	@include media-up(md) {
+		&>li {
+			&>* {
+				margin: 0 10px;
+				padding: 5px 10px;
+			}
+		}
+	}
 }

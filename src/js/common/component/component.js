@@ -33,35 +33,35 @@ export class Component {
 	static instances = new Map();
 	static factories = new Map();
 
-  static getFactory(factory) {
-    return new Promise((resolve, reject) => {
-      if (Array.isArray(factory)) {
-        const name = factory[0];
-        if (this.factories.has(name)) {
-          resolve(this.factories.get(name));
-        } else {
-          const src = factory[1];
-          const key = Object.keys(modules).find(key => key.indexOf(src) !== -1);
-          if (key) {
-            const loader = modules[key];
-            loader().then(module => {
-              if (name in module) {
-                factory = module[name];
-                this.factories.set(name, factory);
-                resolve(factory);
-              } else {
-                reject(`cannot find ${name} in module ${src}`);
-              }
-            });
-          } else {
-            reject(`cannot find ${name} in modules`);
-          }
-        }
-      } else {
-        resolve(factory);
-      }
-    });
-  }
+	static getFactory(factory) {
+		return new Promise((resolve, reject) => {
+			if (Array.isArray(factory)) {
+				const name = factory[0];
+				if (this.factories.has(name)) {
+					resolve(this.factories.get(name));
+				} else {
+					const src = factory[1];
+					const key = Object.keys(modules).find(key => key.indexOf(src) !== -1);
+					if (key) {
+						const loader = modules[key];
+						loader().then(module => {
+							if (name in module) {
+								factory = module[name];
+								this.factories.set(name, factory);
+								resolve(factory);
+							} else {
+								reject(`cannot find ${name} in module ${src}`);
+							}
+						});
+					} else {
+						reject(`cannot find ${name} in modules`);
+					}
+				}
+			} else {
+				resolve(factory);
+			}
+		});
+	}
 
 	static register$(factories, target = document) {
 		const instances = [];
@@ -69,13 +69,13 @@ export class Component {
 		const instances$ = new Subject();
 		const observingNodes = [];
 		const entries = factories.map(factory => {
-      let selector;
-      if (Array.isArray(factory)) {
-        selector = factory[2];
-      } else {
-        selector = factory.meta.selector;
-      }
-      const nodes = Array.prototype.slice.call(target.querySelectorAll(selector));
+			let selector;
+			if (Array.isArray(factory)) {
+				selector = factory[2];
+			} else {
+				selector = factory.meta.selector;
+			}
+			const nodes = Array.prototype.slice.call(target.querySelectorAll(selector));
 			if ('matches' in target && target.matches(selector)) {
 				nodes.push(target);
 			}
@@ -92,11 +92,11 @@ export class Component {
 		const initialize = (node) => {
 			const nodeEntries = entries.filter(x => x.nodes.indexOf(node) !== -1);
 			nodeEntries.forEach(nodeEntry => {
-        this.getFactory(nodeEntry.factory).then(factory => {
-          const instance = new factory.prototype.constructor(node);
-          instances.push(instance);
-          instances$.next(instances.slice());
-        });
+				this.getFactory(nodeEntry.factory).then(factory => {
+					const instance = new factory.prototype.constructor(node);
+					instances.push(instance);
+					instances$.next(instances.slice());
+				});
 			});
 		};
 		if ('IntersectionObserver' in window) {

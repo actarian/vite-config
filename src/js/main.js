@@ -6,8 +6,8 @@ import { SectionComponent } from './components/section.component';
 function registerApp$(parent = document) {
 	return Component.register$([
 		AppComponent,
-    SectionComponent,
-    ['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
+		SectionComponent,
+		['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
 	], parent);
 };
 
@@ -20,5 +20,5 @@ window.addEventListener('DOMContentLoaded', () => {
 window.registerApp$ = registerApp$;
 
 function threeshake() {
-  console.log('if this comment is present in the main.js there is a threeshake error!');
+	console.log('if this comment is present in the main.js there is a threeshake error!');
 }

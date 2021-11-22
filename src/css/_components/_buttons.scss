@@ -26,8 +26,9 @@
 
 %btn {
 	@extend %btn-reset;
-	transition: cubic-bezier(0.65, 0.05, 0.36, 1) 350ms;
-	// transition-property: background-color, color, border, opacity;
+	transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+	transition-duration: 350ms;
+	transition-property: background-color, color, border-color, opacity;
 
 	svg {
 		fill: currentColor;

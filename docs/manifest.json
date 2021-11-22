@@ -1,0 +1,29 @@
+{
+  "_vendor.js": {
+    "file": "js/vendor.js"
+  },
+  "_main.js": {
+    "file": "js/main.js",
+    "imports": [
+      "_vendor.js"
+    ],
+    "dynamicImports": [
+      "js/modules/lazy-section.component.js"
+    ],
+    "css": [
+      "assets/main.css"
+    ]
+  },
+  "js/modules/lazy-section.component.js": {
+    "file": "js/lazy-section.component.js",
+    "src": "js/modules/lazy-section.component.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_main.js",
+      "_vendor.js"
+    ],
+    "css": [
+      "assets/lazy-section.component.css"
+    ]
+  }
+}
