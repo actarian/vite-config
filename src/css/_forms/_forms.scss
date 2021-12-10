@@ -8,192 +8,18 @@ $dirty: $foreground;
 $touched: $foreground;
 $valid: $foreground;
 $invalid: $foreground-primary;
-
 $pristine-negative: $foreground-negative;
 $dirty-negative: $foreground-negative;
 $touched-negative: $foreground-negative;
 $valid-negative: $foreground-negative;
 $invalid-negative: $foreground-primary;
 
-::-webkit-file-upload-button {
-	cursor: pointer;
-}
-
-%btn--disabled {
-	opacity: 0.5;
-	background: rgb(125, 125, 125);
-	color: white;
-}
-
-%label {
+fieldset,
+.form {
 	display: block;
-	flex: 0 0 100%;
-	font-family: $font-primary;
-	font-size: 0.6em;
-	font-weight: $font-semibold;
-	line-height: $line;
-	margin-bottom: 4px;
-	color: $pristine;
-	text-transform: uppercase;
-}
-
-%placeholder {
-	text-transform: none;
-	color: $foreground;
-}
-
-%group--form {
-	position: relative;
-	display: flex;
-	flex-wrap: wrap;
-	padding: 10px 0;
-	border-bottom: 2px solid $background-tertiary;
-
-	@include media-down(xs) {
-		margin-bottom: 10px;
-	}
-
-	label {
-		@extend %label;
-	}
-
-	&.required {
-		.required__badge {
-			top: 13px;
-			right: 1px;
-			width: 4px;
-			height: 4px;
-			background: $border;
-			border-radius: 2px;
-			line-height: 0;
-			font-size: 0;
-			transform: rotateZ(45deg);
-		}
-	}
-
-	.invalid.touched & {
-		.required__badge {
-			background: $background-primary;
-			color: $foreground-secondary;
-		}
-	}
-}
-
-@mixin autofill($size: $size, $weight: $weight, $line: $line, $spacing: $spacing, $family: $family,
-	$color: black, $background: white, $borderColor: transparent, $borderWidth: 0px, $borderRadius: 0px) {
-	background: $background;
-	color: $color;
-	border: $borderWidth solid $borderColor;
-	border-radius: $borderRadius;
-	outline: none;
-
-	&:-webkit-autofill,
-	&:-webkit-autofill:hover,
-	&:-webkit-autofill:focus {
-		background: $background;
-		color: $color;
-		border: $borderWidth solid $borderColor;
-		border-radius: $borderRadius;
-		font-family: $family;
-		font-size: $size;
-		font-weight: $weight;
-		letter-spacing: $spacing;
-		line-height: $line;
-		text-transform: none; // uppercase;
-		-webkit-text-fill-color: $color;
-		box-shadow: 0 0 0px 1000px $background inset;
-		transition: background-color 5000s ease-in-out 0s;
-	}
-
-	&::placeholder {
-		font-family: $family;
-		font-size: $size;
-		font-weight: $weight;
-		letter-spacing: $spacing;
-		line-height: $line * 2;
-		@extend %placeholder;
-	}
-}
-
-%control--text {
-	@include autofill($size, $weight, $line, $spacing, $family, $foreground, transparent);
-	flex: 1 1 auto;
-	width: 1px;
-	max-width: 100%;
-	margin: 0;
-	padding: 0 20px 0 0;
-	background: none;
-	border: none;
-	outline: none;
-	appearance: none;
-	color: $foreground;
-	font-family: $family;
-	font-size: $size;
-	font-weight: $weight;
-	letter-spacing: $spacing;
-	line-height: $line;
-
-	&.pristine {
-		color: $pristine;
-	}
-
-	&.dirty {
-		color: $dirty;
-	}
-
-	&.touched {
-		color: $touched;
-	}
-
-	&.valid {
-		border-color: $valid;
-		color: $valid;
-	}
-
-	&.invalid:not(.pristine) {
-		color: $invalid;
-	}
-}
-
-%control--text-negative {
-	@include autofill($size, $weight, $line, $spacing, $family, $foreground-negative, transparent);
-	flex: 1 1 auto;
-	width: 1px;
-	max-width: 100%;
 	margin: 0;
 	padding: 0;
-	background: none;
 	border: none;
-	outline: none;
-	appearance: none;
-	color: $foreground-negative;
-	font-family: $family;
-	font-size: $size;
-	font-weight: $weight;
-	letter-spacing: $spacing;
-	line-height: $line;
-	text-transform: uppercase;
-
-	&.pristine {
-		color: $pristine-negative;
-	}
-
-	&.dirty {
-		color: $dirty-negative;
-	}
-
-	&.touched {
-		color: $touched-negative;
-	}
-
-	&.valid {
-		border-color: $valid-negative;
-		color: $valid-negative;
-	}
-
-	&.invalid:not(.pristine) {
-		color: $invalid-negative;
-	}
 }
 
 .form {
@@ -203,20 +29,21 @@ $invalid-negative: $foreground-primary;
 		margin-bottom: 25px;
 		font-family: $font-secondary;
 		font-size: 48px;
-		line-height: 1.2;
+		line-height: 1.25;
 		letter-spacing: -0.03em;
 		text-transform: uppercase;
 		text-align: left;
 		color: #000000;
 	}
 
-	.group--cta {
+	&__cta {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		width: 100%;
 		margin: 0;
-		padding: 10px 0 20px 0;
+		// padding: 10px 0 20px 0;
+		padding: 50px 0 20px 0;
 
 		&>*+* {
 			margin-left: 10px;
@@ -227,199 +54,62 @@ $invalid-negative: $foreground-primary;
 		}
 	}
 
-	.group--info {
+	&__info {
 		text-align: center;
 		margin: 40px 0;
 	}
 
-	.btn--submit {
-		opacity: 0.5;
-	}
-
-	&.valid {
-		.btn--submit {
-			opacity: 1;
-		}
-	}
-}
-
-.group--error {
-	background: #fae6e6;
-	color: #dc1215;
-	text-align: center;
-	padding: 5px;
-	font-size: 16px;
-	font-weight: $font-semibold;
-}
-
-fieldset,
-.form {
-	display: block;
-	margin: 0;
-	padding: 0;
-	border: none;
-}
-
-.group--form {
-	@extend %group--form;
-}
-
-.control--text {
-	@extend %control--text;
-}
-
-.group--form--textarea {
-	@extend %group--form;
-	padding: 10px;
-	border: 2px solid $border;
-
-	.control--text {
-		resize: vertical;
+	&__error {
+		background: #fae6e6;
+		color: #dc1215;
+		text-align: center;
+		padding: 5px;
 		font-size: 16px;
-		@include scrollbar();
-	}
-
-	label {
-		margin-bottom: 5px;
-	}
-}
-
-.group--form--checkbox {
-	@extend %group--form;
-	position: relative;
-	align-items: center;
-	flex-wrap: nowrap;
-	padding-top: 5px;
-	margin: 0 auto;
-
-	input {
-		width: 11px;
-		height: 11px;
-		padding: 0;
-		margin: 0 8px 0 0;
-		border: 2px solid $pristine;
-		border-radius: 0;
-		outline: 0;
-		cursor: pointer;
-		appearance: none;
-
-		&:checked {
-			background: $pristine;
-		}
-
-		&[type="checkbox"] {
-			position: absolute;
-			visibility: hidden;
-
-			&:not(:checked)+label .icon--checkbox {
-				display: flex;
-			}
-
-			&:checked+label .icon--checkbox-checked {
-				display: flex;
-			}
-		}
-	}
-
-	label {
-		flex: 1 1 auto;
-		display: flex;
-		align-items: flex-start;
-		justify-content: center;
-		cursor: pointer;
-		line-height: 1.5;
-
-		&>svg {
-			display: none;
-			flex: 0 0 20px;
-			width: 20px;
-			height: 20px;
-			margin: 10px 10px 10px 0;
-			line-height: 0;
-			fill: currentColor;
-		}
-
-		&>span {
-			flex: 1 1 auto;
-			font-family: $font-primary;
-			font-size: 16px;
-			text-transform: none;
-			line-height: 1.4;
-			padding-top: 9px;
-
-			&>a {
-				@extend %btn-link;
-				font-weight: 500;
-			}
-		}
-	}
-
-	a {
 		font-weight: $font-semibold;
-		text-decoration: underline;
 	}
 }
 
-.group--form--radio {
-	min-height: 72px;
-	padding-top: 19px;
+.form__fields {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-wrap: wrap;
 
-	input {
-		width: 12px;
-		height: 12px;
-		border-radius: 7px;
+	@include media-up(sm) {
+		$gutter: 30px;
+		margin-left: - $gutter / 2;
+		margin-right: - $gutter / 2;
+
+		&>div:not(.full) {
+			@include as-col(6, 12, $gutter);
+
+			&[control-textarea] {
+				@include as-col(12, 12, $gutter);
+			}
+		}
 	}
 
-	span {
-		margin: 0 5px 0 4px;
-	}
-}
+	@include media-down(xs) {
+		$gutter: 30px;
+		margin-left: - $gutter / 2;
+		margin-right: - $gutter / 2;
 
-.group--form--file {
-	@extend %group--form;
-	position: relative;
-	cursor: pointer;
-	transition: background ease-in-out $fast;
+		&>div:not(.full) {
+			@include as-col(12, 12, $gutter);
 
-	input[type="file"] {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		opacity: 0;
-		cursor: pointer;
-		background: red;
+			&[control-textarea] {
+				@include as-col(12, 12, $gutter);
+			}
+		}
 	}
 
-	svg {
-		margin: 0 7px 0 0;
-		fill: $pristine;
-		pointer-events: none;
-		width: 24px;
-		height: 24px;
-	}
-
-	&:hover {
-		background: $background-tertiary;
+	&>div.full {
+		$gutter: 30px;
+		@include as-col(12, 12, $gutter);
 	}
 }
 
-errors-component {
-	display: block;
-
-	.inner {
-		margin-top: 0;
-		margin-bottom: 10px;
-		padding: 10px 0;
-		font-size: 10px;
-		font-weight: 900;
-		line-height: 1;
-		color: $foreground-primary;
-	}
-}
-
-.listing--form {
+.form__fields--large {
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
@@ -475,136 +165,11 @@ errors-component {
 	}
 }
 
-.listing--form-compact {
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-start;
-	flex-wrap: wrap;
-
-	@include media-up(sm) {
-		$gutter: 30px;
-		margin-left: - $gutter / 2;
-		margin-right: - $gutter / 2;
-
-		&>div:not(.full) {
-			@include as-col(6, 12, $gutter);
-
-			&[control-textarea] {
-				@include as-col(12, 12, $gutter);
-			}
-		}
-	}
-
-	@include media-down(xs) {
-		$gutter: 30px;
-		margin-left: - $gutter / 2;
-		margin-right: - $gutter / 2;
-
-		&>div:not(.full) {
-			@include as-col(12, 12, $gutter);
-
-			&[control-textarea] {
-				@include as-col(12, 12, $gutter);
-			}
-		}
-	}
-
-	&>div.full {
-		$gutter: 30px;
-		@include as-col(12, 12, $gutter);
-	}
-}
-
-.required__badge {
-	display: none;
-}
-
-.required {
-	position: relative;
-
-	.required__badge {
-		@extend %label;
-		display: block;
-		position: absolute;
-		font-size: 0.6em;
-	}
-}
-
-.invalid.touched {
-	.required__badge {
-		color: $foreground-secondary;
-	}
-}
-
-.control--head {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	margin-bottom: 4px;
-	flex: 1 1 100%;
-}
-
-.control--content {
-	display: flex;
-	justify-content: flex-start;
-	width: 100%;
-	flex: 1 1 100%;
-}
-
-.group--control {
-	display: flex;
-}
-
-.disabled {
-
-	label,
-	.control--text,
-	.required__badge {
-		opacity: 0.5;
-		pointer-events: none;
-	}
-}
-
-.group--form--results {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin: 30px 0;
-	padding: 10px 15px;
-	font-size: 16px;
-	text-align: center;
-
-	@include media-down(xs) {
-		display: none;
-	}
-}
-
-test-component {
-
-	.test-component {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: flex-start;
-		margin: 10px 0;
-		padding: 20px 30px;
-		font-size: 16px;
-		text-align: center;
-		border: 2px solid $foreground;
-		border-radius: 8px;
-	}
-
-	.test-component__title {
-		margin-bottom: 20px;
-	}
-
-	code {
-		margin-bottom: 15px;
-		font-size: 14px;
-		letter-spacing: -0.2px;
-		word-break: break-word;
-	}
-}
-
+@import './_controls/_control';
+@import './_controls/_text';
+@import './_controls/_textarea';
 @import './_controls/_select';
+@import './_controls/_checkbox';
+@import './_controls/_privacy';
+@import './_controls/_checkfield';
+@import './_controls/_forms-test';

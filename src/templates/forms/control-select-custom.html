@@ -1,0 +1,27 @@
+<div class="control" control-custom-select field="{{ control.key }}">
+	<div class="control__field--select" [class]="{ required: control.validators.length, multiple: isMultiple }" [dropdown]="dropdownId" (dropped)="onDropped($event)">
+		<label>
+			<span>
+				{{ control.label }}
+			</span>
+			<span class="required__sign">*</span>
+		</label>
+		<span class="control--custom-select">
+			{{ control.placeholder }}
+		</span>
+		<svg class="caret-down"><use xlink:href="#caret-down"></use></svg>
+	</div>
+	{% include "src/templates/forms/control-errors.html" %}
+	<div class="dropdown dropdown-item" [dropdown-item]="dropdownId">
+		<div class="category">
+			{{ control.label }}
+		</div>
+		<ul class="nav--dropdown">
+			<li (click)="setOption(item)" [class]="{ empty: item.id == null }" class="empty">
+				<span [class]="{ active: hasOption(item) }" [innerhtml]="item.name | label" class="active">
+					{{ control.placeholder }}
+				</span>
+			</li>
+		</ul>
+	</div>
+</div>

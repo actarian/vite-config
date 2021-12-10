@@ -1,0 +1,12 @@
+<div class="control full" control-checkbox field="{{ control.key }}">
+	<div class="control__field--checkbox">
+		<input type="checkbox" class="control__checkbox" value="true" id="{{ control.key }}">
+		<label for="{{ control.key }}">
+			<svg class="icon icon--checkbox"><use xlink:href="#checkbox"></use></svg>
+			<svg class="icon icon--checkbox-checked"><use xlink:href="#checkbox-checked"></use></svg>
+			<span>{{ control.label | safe }}</span>
+			<span class="required__sign">*</span>
+		</label>
+	</div>
+	{% include "src/templates/forms/control-errors.html" %}
+</div>

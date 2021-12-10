@@ -44,7 +44,12 @@
       {% block main %} This is the default content {% endblock %}
     </main>
     {% include "./shared/footer.html" %}
+	<div class="modal-outlet" modal-outlet></div>
+	<script>
+		window.STATIC = true;
+	</script>
     <script type="module" src="./js/main.js"></script>
     {% block js %}{% endblock %}
+	{% include "src/templates/shared/svg.html" %}
   </body>
 </html>

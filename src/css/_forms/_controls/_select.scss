@@ -1,9 +1,7 @@
-.group--form--select {
-	@extend %group--form;
+.control__field--select {
+	@extend %control__field;
 	position: relative;
 	background: transparent;
-	border: none;
-	border-bottom: 2px solid transparent;
 	border-radius: 0;
 	cursor: pointer;
 
@@ -23,54 +21,45 @@
 	}
 }
 
-.control--select {
+.control__select {
 	@extend %control--text;
-	font-size: $size;
-	text-transform: none;
-	line-height: 1.2;
-	min-height: 44px;
-	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0;
 
-	.multiple>& {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-width: calc(100% - 23px);
-	}
-}
-
-.control--custom-select {
-	@extend %control--text;
-	line-height: 1;
-	cursor: pointer;
-
-	.multiple>& {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		max-width: calc(100% - 23px);
-	}
-}
-
-[control-custom-select] {
-	position: relative;
-
-	.group--form--select {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.dropdown {
-		top: 100%;
+	select {
+		flex: 1 1 calc(100% - 20px);
+		max-width: calc(100% - 20px);
 		width: 100%;
-		left: 0;
-		border-radius: 0;
+		font-family: inherit;
+		font-size: 16px;
+		text-transform: none;
+		line-height: 1.25;
+		min-height: 24px;
+		cursor: pointer;
+		appearance: none;
+		background: transparent;
+		border: none;
+		outline: none;
 	}
 
-	&.hidden {
-		display: block;
-		visibility: hidden;
+	svg {
+		flex: 0 0 20px;
+		width: 10px;
+		height: 6px;
+		margin: 0 5px;
+		margin-top: -3px;
+		width: 10px;
+		height: 6px;
 		pointer-events: none;
+	}
+
+	.multiple>& {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: calc(100% - 23px);
 	}
 }

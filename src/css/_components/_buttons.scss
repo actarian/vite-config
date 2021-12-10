@@ -317,7 +317,7 @@
 
 %btn-primary {
 	// @include btn(#232221, $foreground-negative, $background-negative, $foreground-negative, #232221, $foreground-negative);
-	@include btn($background-secondary, $foreground-negative, $background-secondary, $foreground-negative, $background-secondary, $foreground-negative);
+	@include btn($background-primary, $foreground-negative, $background-primary, $foreground-negative, $background-primary, $foreground-negative);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -329,7 +329,7 @@
 	text-align: center;
 	text-transform: uppercase;
 	letter-spacing: 0.043em;
-	border: 1px solid $background-secondary;
+	border: 1px solid $background-primary;
 
 	svg {
 		margin-right: 10px;
@@ -388,7 +388,7 @@
 
 %btn-secondary {
 	// @include btn($background, #232221, #232221, $foreground-negative, $background-negative, $foreground-negative);
-	@include btn($background, #232221, $background-secondary, $foreground-negative, $background-secondary, $foreground-negative);
+	@include btn($background, #232221, $background-primary, $foreground-negative, $background-primary, $foreground-negative);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -400,7 +400,7 @@
 	text-align: center;
 	text-transform: uppercase;
 	letter-spacing: 0.043em;
-	border: 1px solid $background-secondary;
+	border: 1px solid $background-primary;
 
 	svg {
 		margin-right: 10px;
@@ -423,6 +423,20 @@
 }
 
 .btn {
+	@extend %btn;
+}
+
+.btn--primary,
+.btn--submit {
+	@extend %btn-primary;
+}
+
+.btn--secondary,
+.btn--reset {
+	@extend %btn-secondary;
+}
+
+.btn--close {
 	@extend %btn;
 }
 

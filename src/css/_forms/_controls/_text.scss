@@ -1,0 +1,138 @@
+%placeholder {
+	color: $foreground-tertiary;
+}
+
+%placeholder-negative {
+	color: $foreground-secondary;
+}
+
+@mixin autofill($size: $size, $weight: $weight, $line: $line, $spacing: $spacing, $family: $family,
+	$color: black, $background: white, $borderColor: transparent, $borderWidth: 0px, $borderRadius: 0px) {
+	background: $background;
+	color: $color;
+	border: $borderWidth solid $borderColor;
+	border-radius: $borderRadius;
+	outline: none;
+
+	&:-webkit-autofill,
+	&:-webkit-autofill:hover,
+	&:-webkit-autofill:focus {
+		background: $background;
+		color: $color;
+		border: $borderWidth solid $borderColor;
+		border-radius: $borderRadius;
+		font-family: $family;
+		font-size: $size;
+		font-weight: $weight;
+		letter-spacing: $spacing;
+		line-height: $line;
+		text-transform: none; // uppercase;
+		-webkit-text-fill-color: $color;
+		box-shadow: 0 0 0px 1000px $background inset;
+		transition: background-color 5000s ease-in-out 0s;
+	}
+
+	&::placeholder {
+		font-family: $family;
+		font-size: $size;
+		font-weight: $weight;
+		letter-spacing: $spacing;
+		line-height: $line * 2;
+		text-transform: none;
+	}
+}
+
+%control--text {
+	@include autofill($size, $weight, $line, $spacing, $family, $foreground, transparent);
+
+	&::placeholder {
+		@extend %placeholder;
+	}
+
+	flex: 1 1 auto;
+	width: 1px;
+	max-width: 100%;
+	margin: 0;
+	padding: 0 20px 0 0;
+	background: none;
+	border: none;
+	outline: none;
+	appearance: none;
+	color: $foreground;
+	font-family: $family;
+	font-size: $size;
+	font-weight: $weight;
+	letter-spacing: $spacing;
+	line-height: $line;
+
+	&.pristine {
+		color: $pristine;
+	}
+
+	&.dirty {
+		color: $dirty;
+	}
+
+	&.touched {
+		color: $touched;
+	}
+
+	&.valid {
+		border-color: $valid;
+		color: $valid;
+	}
+
+	&.invalid:not(.pristine) {
+		color: $invalid;
+	}
+}
+
+%control--text-negative {
+	@include autofill($size, $weight, $line, $spacing, $family, $foreground-negative, transparent);
+
+	&::placeholder {
+		@extend %placeholder-negative;
+	}
+
+	flex: 1 1 auto;
+	width: 1px;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: none;
+	outline: none;
+	appearance: none;
+	color: $foreground-negative;
+	font-family: $family;
+	font-size: $size;
+	font-weight: $weight;
+	letter-spacing: $spacing;
+	line-height: $line;
+	text-transform: uppercase;
+
+	&.pristine {
+		color: $pristine-negative;
+	}
+
+	&.dirty {
+		color: $dirty-negative;
+	}
+
+	&.touched {
+		color: $touched-negative;
+	}
+
+	&.valid {
+		border-color: $valid-negative;
+		color: $valid-negative;
+	}
+
+	&.invalid:not(.pristine) {
+		color: $invalid-negative;
+	}
+}
+
+.control--text {
+	@extend %control--text;
+}

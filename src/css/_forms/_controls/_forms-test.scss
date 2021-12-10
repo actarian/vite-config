@@ -1,0 +1,22 @@
+.forms-test {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	background: rgba(255, 255, 255, 0.3);
+	margin: 10px 0;
+	padding: 20px 30px;
+	font-size: 16px;
+	text-align: center;
+
+	&__code {
+		margin-bottom: 15px;
+		font-size: 14px;
+		letter-spacing: -0.2px;
+		word-break: break-word;
+	}
+
+	&>button+button {
+		margin-top: 20px;
+	}
+}

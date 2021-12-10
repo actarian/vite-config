@@ -36,83 +36,83 @@ export class Component {
 	static entries = new Map();
 	static observers = new Map();
 
-  static getOrSetInstances(target) {
-    if (this.instances.has(target)) {
-      return this.instances.get(target);
-    } else {
-      const instances = [];
-      this.instances.set(target, instances);
-      return instances;
-    }
-  }
+	static getOrSetInstances(target) {
+		if (this.instances.has(target)) {
+			return this.instances.get(target);
+		} else {
+			const instances = [];
+			this.instances.set(target, instances);
+			return instances;
+		}
+	}
 
-  static getOrSetEntries(target, factories) {
-    const entries = factories.map(factory => {
-      const nodes = Array.prototype.slice.call(target.querySelectorAll(factory.meta.selector));
-      if ('matches' in target && target.matches(factory.meta.selector)) {
-        nodes.push(target);
-      }
-      nodes.forEach(node => {
-        if (observingElements.indexOf(node) === -1) {
-          observingElements.push(node);
-        }
-      });
-      return {
-        factory,
-        nodes: nodes,
-      }
-    }).filter(x => x.nodes.length > 0);
-    if (this.entries.has(target)) {
-      return this.entries.get(target).concat(entries);
-    } else {
-      this.entries.set(target, entries);
-      return entries;
-    }
-  }
+	static getOrSetEntries(target, factories) {
+		const entries = factories.map(factory => {
+			const nodes = Array.prototype.slice.call(target.querySelectorAll(factory.meta.selector));
+			if ('matches' in target && target.matches(factory.meta.selector)) {
+				nodes.push(target);
+			}
+			nodes.forEach(node => {
+				if (observingElements.indexOf(node) === -1) {
+					observingElements.push(node);
+				}
+			});
+			return {
+				factory,
+				nodes: nodes,
+			}
+		}).filter(x => x.nodes.length > 0);
+		if (this.entries.has(target)) {
+			return this.entries.get(target).concat(entries);
+		} else {
+			this.entries.set(target, entries);
+			return entries;
+		}
+	}
 
-  static getOrSetObservers(target) {
-    if ('IntersectionObserver' in window) {
-      if (this.observers.has(target)) {
-        return this.observers.get(target);
-      } else {
-        const observerOptions = {
-          root: target,
-          rootMargin: '50px',
-          threshold: [0.01, 0.99],
-        };
-        const observer = new IntersectionObserver((entries, observer) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              initialize(entry.target);
-              observer.unobserve(entry.target);
-            }
-          });
-        }, observerOptions);
-        this.observers.set(target, observer);
-        return observer;
-      }
+	static getOrSetObservers(target) {
+		if ('IntersectionObserver' in window) {
+			if (this.observers.has(target)) {
+				return this.observers.get(target);
+			} else {
+				const observerOptions = {
+					root: target,
+					rootMargin: '50px',
+					threshold: [0.01, 0.99],
+				};
+				const observer = new IntersectionObserver((entries, observer) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							initialize(entry.target);
+							observer.unobserve(entry.target);
+						}
+					});
+				}, observerOptions);
+				this.observers.set(target, observer);
+				return observer;
+			}
 		} else {
 			return null;
 		}
-  }
+	}
 
-  static initialize(element, target) {
-    let entries = this.entries.get(target);
-    if (entries) {
-      const instances = this.getOrSetInstances(target);
-		  entries = entries.filter(x => x.nodes.indexOf(element) !== -1);
-      entries.forEach(entry => {
-        const instance = new entry.factory.prototype.constructor(element);
-        instances.push(instance);
-        instances$.next(instances.slice());
-      });
-    }
-  }
+	static initialize(element, target) {
+		let entries = this.entries.get(target);
+		if (entries) {
+			const instances = this.getOrSetInstances(target);
+			entries = entries.filter(x => x.nodes.indexOf(element) !== -1);
+			entries.forEach(entry => {
+				const instance = new entry.factory.prototype.constructor(element);
+				instances.push(instance);
+				instances$.next(instances.slice());
+			});
+		}
+	}
 
 	static register$(factories, target = document) {
 		const instances = this.getOrSetInstances(target);
 		const instances$ = new Subject();
-    const entries = this.getOrSetEntries(target, factories);
+		const entries = this.getOrSetEntries(target, factories);
 		const observingElements = [];
 		const items = factories.map(factory => {
 			const nodes = Array.prototype.slice.call(target.querySelectorAll(factory.meta.selector));
@@ -137,16 +137,16 @@ export class Component {
 				instances$.next(instances.slice());
 			});
 		};
-    const observer = this.getOrSetObservers(target);
-    if (observer) {
-      observingElements.forEach((element) => {
+		const observer = this.getOrSetObservers(target);
+		if (observer) {
+			observingElements.forEach((element) => {
 				observer.observe(element);
 			});
-    } else {
+		} else {
 			observingElements.forEach((element) => {
 				initialize(element);
 			});
-    }
+		}
 		return instances$;
 	}
 

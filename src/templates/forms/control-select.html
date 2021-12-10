@@ -1,0 +1,22 @@
+<div class="control" control-select field="{{ control.key }}">
+	<div class="control__field control__field--select">
+		<label for="{{ control.key }}">
+			<span>
+				{{ control.label }}
+			</span>
+			<span class="required__sign">*</span>
+		</label>
+		<div class="control__select">
+			<select name="{{ control.key }}" id="{{ control.key }}">
+				<option>
+					{{ control.placeholder }}
+				</option>
+				<option value="1">Option 1</option>
+				<option value="2">Option 2</option>
+				<option value="3">Option 3</option>
+			</select>
+			<svg><use xlink:href="#caret-down"></use></svg>
+		</div>
+	</div>
+	{% include "src/templates/forms/control-errors.html" %}
+</div>

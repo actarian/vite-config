@@ -1,12 +1,18 @@
 import '../css/main-cssvars.scss';
 import { AppComponent } from './app.component';
+import { CommonModule } from './common/common.module';
 import { Component } from './common/component/component';
-import { SectionComponent } from './components/section.component';
+import { CoreModule } from './common/core.module';
+import { ComponentsModule } from './components/components.module';
+import { FormsModule } from './forms/forms.module';
 
 function registerApp$(parent = document) {
 	return Component.register$([
+		...CoreModule,
+		...CommonModule,
+		...FormsModule,
+		...ComponentsModule,
 		AppComponent,
-		SectionComponent,
 		['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
 	], parent);
 };

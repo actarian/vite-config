@@ -1,0 +1,114 @@
+.control__field--privacy {
+	@extend %control__field;
+	position: relative;
+	display: block;
+	padding-top: 5px;
+	margin: 0 auto;
+
+	.control__radios {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.control__checkbox {
+		width: 11px;
+		height: 11px;
+		padding: 0;
+		margin: 0 8px 0 0;
+		border: 2px solid $pristine;
+		border-radius: 0;
+		outline: 0;
+		cursor: pointer;
+		appearance: none;
+
+		&:checked {
+			background: $pristine;
+		}
+
+		&[type="radio"] {
+			position: absolute;
+			visibility: hidden;
+
+			&:not(:checked)+label .icon--checkbox {
+				display: flex;
+			}
+
+			&:checked+label .icon--checkbox-checked {
+				display: flex;
+			}
+		}
+	}
+
+	label {
+		flex: 0 0 auto;
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		margin-right: 30px;
+		cursor: pointer;
+		line-height: 1.5;
+
+		&>svg {
+			display: none;
+			flex: 0 0 20px;
+			width: 20px;
+			height: 20px;
+			margin: 10px 10px 10px 0;
+			line-height: 0;
+			fill: currentColor;
+		}
+
+		&>span {
+			flex: 1 1 auto;
+			font-family: $font-primary;
+			font-size: 14px;
+			font-weight: $font-regular;
+			text-transform: none;
+			line-height: 1.4;
+			padding-top: 11px;
+
+			&>a {
+				@extend %btn-link;
+				font-weight: $font-semibold;
+
+				&,
+				&:link,
+				&:visited,
+				&:focus,
+				&:active,
+				&:hover {
+					color: $foreground-primary;
+				}
+			}
+		}
+	}
+
+	.control__description {
+		flex: 0 0 auto;
+		display: block;
+		margin-left: 30px;
+		font-family: $font-primary;
+		font-size: 14px;
+		font-weight: $font-regular;
+		text-transform: none;
+		line-height: 1.7;
+	}
+
+	&.required {
+		label {
+			&>span {
+				flex-grow: 0;
+			}
+
+			&>.required__sign {
+				flex-grow: 1;
+			}
+		}
+	}
+
+	a {
+		font-weight: $font-semibold;
+		text-decoration: underline;
+	}
+}

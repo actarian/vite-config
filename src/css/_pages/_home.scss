@@ -1,32 +1,12 @@
-.hero,
-.section {
-	padding: 40px 0;
+.slider-hero {
+	padding: 0;
+	background: black;
+}
 
-	&__content {
-		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		min-height: 75vh;
-		border-radius: 20px;
-		border: 1px solid $border;
-		box-shadow: 0 20px 20px -10px rgb(#0044ff, 0.1);
-	}
+.red {
+	color: red;
+}
 
-	&__time {
-		position: absolute;
-		top: 40px;
-		right: 40px;
-		padding: 4px 8px;
-		border-radius: 5px;
-		font-size: 11px;
-		line-height: 1.2;
-		background: $background-primary;
-		color: $foreground-negative;
-	}
-
-	&__title {
-		font-size: 80px;
-		text-align: center;
-	}
+.green {
+	color: green;
 }

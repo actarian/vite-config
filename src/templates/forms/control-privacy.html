@@ -1,0 +1,23 @@
+<div class="control full" control-privacy field="{{ control.key }}">
+	<div class="control__field--privacy">
+		<div class="control__radios">
+			<input type="radio" class="control__checkbox" value="true" id="{{ control.key }}_true" name="{{ control.key }}">
+			<label for="{{ control.key }}_true">
+				<svg class="icon icon--checkbox"><use xlink:href="#checkbox"></use></svg>
+				<svg class="icon icon--checkbox-checked"><use xlink:href="#checkbox-checked"></use></svg>
+				<span>Acconsento</span>
+			</label>
+			<input type="radio" class="control__checkbox" value="false" id="{{ control.key }}_false" name="{{ control.key }}">
+			<label for="{{ control.key }}_false">
+				<svg class="icon icon--checkbox"><use xlink:href="#checkbox"></use></svg>
+				<svg class="icon icon--checkbox-checked"><use xlink:href="#checkbox-checked"></use></svg>
+				<span>Non acconsento</span>
+			</label>
+		</div>
+		<div class="control__description">
+			<span>{{ control.label | safe }}</span>
+			<span class="required__sign">*</span>
+		</div>
+	</div>
+	{% include "src/templates/forms/control-errors.html" %}
+</div>

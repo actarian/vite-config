@@ -1,0 +1,27 @@
+<div class="slider-hero">
+	<!-- slider -->
+	<div class="slider__container" slider>
+		<!-- wrapper -->
+		<div class="slider__wrapper">
+			<!-- inner -->
+			<div class="slider__inner">
+				{% for i in [1,2,3,4] -%}
+				<!-- slide -->
+				<div class="slider__slide">
+					<div class="card">
+						<img width="800" height="400" srcset="{{ ('./assets/slider/0' + i + '.jpg?w=400;800;1600&format=webp') | imageTools | safe }}" loading="lazy" />
+						<!-- <img width="800" height="400" src=" ('./assets/slider/0' + i + '.jpg?w=1600&h=800&webp') | imageTools " loading="lazy" /> -->
+					</div>
+				</div>
+				{%- endfor %}
+			</div>
+		</div>
+		<!-- arrows -->
+		<div class="btn--prev">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/></svg>
+		</div>
+		<div class="btn--next">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/></svg>
+		</div>
+	</div>
+</div>

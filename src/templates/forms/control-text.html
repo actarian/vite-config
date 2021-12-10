@@ -1,0 +1,12 @@
+<div class="control" control-text field="{{ control.key }}">
+	<div class="control__field">
+		<label for="{{ control.key }}">
+			<span>
+				{{ control.label }}
+			</span>
+			<span class="required__sign">*</span>
+		</label>
+		<input type="text" class="control--text" placeholder="{{ control.placeholder }}" id="{{ control.key }}">
+	</div>
+	{% include "src/templates/forms/control-errors.html" %}
+</div>

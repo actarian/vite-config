@@ -1,0 +1,33 @@
+.control__field--file {
+	@extend %control__field;
+	position: relative;
+	cursor: pointer;
+	transition: background ease-in-out $fast;
+
+	input[type="file"] {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		cursor: pointer;
+		background: red;
+	}
+
+	svg {
+		margin: 0 7px 0 0;
+		fill: $pristine;
+		pointer-events: none;
+		width: 24px;
+		height: 24px;
+	}
+
+	&:hover {
+		background: $background-tertiary;
+	}
+}
+
+::-webkit-file-upload-button {
+	cursor: pointer;
+}

@@ -4,16 +4,29 @@
 		align-items: center;
 		min-height: 80px;
 	}
+
+	@include media-up(sm) {
+		position: fixed;
+		width: 100%;
+		z-index: 1;
+	}
 }
 
 .nav--main {
 	@extend %nav;
 
-	@include media-up(md) {
+	@include media-up(sm) {
 		&>li {
-			&>* {
+			&>a,
+			&>button,
+			&>span {
+				display: block;
 				margin: 0 10px;
 				padding: 5px 10px;
+
+				font-weight: bold;
+				color: white;
+				text-shadow: 0 2px 2px rgb(0, 0, 0, 0.5);
 			}
 		}
 	}

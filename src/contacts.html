@@ -7,11 +7,52 @@
 {% extends "src/templates/layout.html" %}
 {% block main %}
 
-<div class="hero">
+{% set item = { title: 'Contacts' } %}
+{% include "src/templates/shared/hero.html" %}
+<!-- include "src/templates/shared/slider.html" -->
+
+<div class="contacts">
 	<div class="container">
-		<div class="hero__content">
-			<div class="hero__title">Contacts Hero</div>
-		</div>
+		<form class="form" name="form" role="form" novalidate="" autocomplete="off" action="#" contacts-form>
+			<div class="form__fields">
+				{% set control = { key: 'checkField' } %}
+				{% include "src/templates/forms/control-checkfield.html" %}
+				{% set control = { key: 'firstName', label: 'Nome', placeholder: 'Nome' } %}
+				{% include "src/templates/forms/control-text.html" %}
+				{% set control = { key: 'lastName', label: 'Cognome', placeholder: 'Cognome' } %}
+				{% include "src/templates/forms/control-text.html" %}
+				{% set control = { key: 'email', label: 'Email', placeholder: 'Email' } %}
+				{% include "src/templates/forms/control-text.html" %}
+				{% set control = { key: 'telephone', label: 'Telefono', placeholder: 'Telefono' } %}
+				{% include "src/templates/forms/control-text.html" %}
+				{% set control = { key: 'job', label: 'Professione', placeholder: 'Professione' } %}
+				{% include "src/templates/forms/control-text.html" %}
+				{% set control = { key: 'company', label: 'Azienda', placeholder: 'Azienda' } %}
+				{% include "src/templates/forms/control-text.html" %}
+				{% set control = { key: 'city', label: 'Città', placeholder: 'Città' } %}
+				{% include "src/templates/forms/control-text.html" %}
+				{% set control = { key: 'country', label: 'Paese', placeholder: 'Paese' } %}
+				{% include "src/templates/forms/control-select.html" %}
+				{% set control = { key: 'requestType', label: 'Motivo', placeholder: 'Motivo' } %}
+				{% include "src/templates/forms/control-select.html" %}
+				{% set control = { key: 'message', label: 'Messaggio', placeholder: 'Messaggio' } %}
+				{% include "src/templates/forms/control-textarea.html" %}
+				{% set control = { key: 'privacy', label: 'Dichiaro di aver letto l\'<a href=\"/it/en/privacy-policy\" target=\"_blank\">informativa</a> e acconsento al trattamento dei dati' } %}
+				{% include "src/templates/forms/control-checkbox.html" %}
+				{% set control = { key: 'newsletter', label: 'Al trattamento dei miei dati personali per attività di marketing diretto mediante l\'iscrizione alla newsletter.' } %}
+				{% include "src/templates/forms/control-privacy.html" %}
+				{% set control = { key: 'commercial', label: 'Al trattamento dei miei dati personali per attività di profilazione, al fine di ricevere comunicazioni commerciali più vicine ai miei interessi.' } %}
+				{% include "src/templates/forms/control-privacy.html" %}
+				{% set control = { key: 'promotion', label: 'Al trasferimento dei miei dati personali per attività promozionali da parte di terzi. I dati saranno trasferiti esclusivamente a società facenti parte del Gruppo.' } %}
+				{% include "src/templates/forms/control-privacy.html" %}
+			</div>
+			<div class="form__cta">
+				<button type="submit" class="btn--submit" data-title="Invia">
+					<span>Invia la tua richiesta</span>
+				</button>
+			</div>
+			<div class="forms-test" forms-test></div>
+		</form>
 	</div>
 </div>
 
