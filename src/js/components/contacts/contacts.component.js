@@ -11,7 +11,7 @@ export const FormStrategy = {
 	ApiData: 'api',
 }
 
-export class ContactsForm extends Component {
+export class ContactsComponent extends Component {
 
 	onInit() {
 		const strategy = this.strategy = this.node.getAttribute('strategy') || FormStrategy.InferData;
@@ -113,9 +113,9 @@ export class ContactsForm extends Component {
 
 	onSubmit(event) {
 		const form = this.form;
-		// console.log('ContactsForm.onSubmit', form.value);
+		// console.log('ContactsComponent.onSubmit', form.value);
 		if (form.flags.valid) {
-			// console.log('ContactsForm.onSubmit.valid!');
+			// console.log('ContactsComponent.onSubmit.valid!');
 		} else {
 			event.preventDefault();
 			form.touched = true;

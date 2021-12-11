@@ -28,7 +28,7 @@ export class AppComponent extends Component {
 			tap(event => {
 				switch (event.type) {
 					case 'modal':
-						ModalService.open$({ src: '/vite-config/generic-modal.html' }).pipe(
+						ModalService.open$({ src: '/vite-config/modal.html' }).pipe(
 							first(),
 							takeUntil(this.unsubscribe$)
 						).subscribe(event => {

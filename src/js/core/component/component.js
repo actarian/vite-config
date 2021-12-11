@@ -6,9 +6,8 @@ const noderef = new Map();
 
 export class Component {
 
-	constructor(node, selector) {
+	constructor(node) {
 		this.node = node;
-		this.selector = selector;
 		this.unsubscribe$ = new Subject();
 		let refs;
 		if (noderef.has(node)) {
@@ -22,8 +21,6 @@ export class Component {
 	}
 
 	onInit() { }
-
-	onChanges() { }
 
 	onDestroy() { }
 
@@ -155,161 +152,7 @@ export class Component {
 		});
 	}
 
-	static matchesSplitted(factories, node = document) {
-		const results = new Map();
-		const tuples = [];
-		factories.forEach((factory, i) => {
-			const selector = Array.isArray(factory) ? factory[2] : factory.meta.selector;
-			const selectors = selector.split(',').map((x) => x.trim());
-			tuples.push(...selectors.map((selector) => ({ factory, selector })));
-		});
-		const match = function(node) {
-			tuples.forEach(function(tuple) {
-				if (node.matches(tuple.selector)) {
-					if (!results.has(node)) {
-						results.set(node, []);
-					}
-					results.get(node).push({ factory: tuple.factory, selector: tuple.selector });
-				}
-			});
-		};
-		function matchNode(node) {
-			if (node) {
-				match(node);
-				matchNode(node.nextElementSibling);
-				matchNode(node.firstElementChild);
-			}
-		}
-		if ('matches' in node) {
-			match(node);
-		}
-		matchNode(node.firstElementChild);
-		Component.stats(`matchesSplitted ${results.size}`);
-		return results;
-	}
-
-	static matchesAttributes(factories, node = document) {
-		const results = new Map();
-		const tuples = [];
-		factories.forEach((factory, i) => {
-			const selector = Array.isArray(factory) ? factory[2] : factory.meta.selector;
-			const selectors = selector.split(',').map((x) => x.replace(/\[|\]/g, '').trim());
-			tuples.push(...selectors.map((selector) => ({ factory, selector })));
-		});
-		const match = function(node) {
-			tuples.forEach(function(tuple) {
-				if (node.hasAttribute(tuple.selector)) {
-					if (!results.has(node)) {
-						results.set(node, []);
-					}
-					results.get(node).push({ factory: tuple.factory, selector: tuple.selector });
-				}
-			});
-		};
-		function matchNode(node) {
-			if (node) {
-				match(node);
-				matchNode(node.nextElementSibling);
-				matchNode(node.firstElementChild);
-			}
-		}
-		if ('hasAttribute' in node) {
-			match(node);
-		}
-		matchNode(node.firstElementChild);
-		Component.stats(`matchesAttributes ${results.size}`);
-		return results;
-	}
-
-	static treeWalkerAttributes(factories, node = document) {
-		const results = new Map();
-		const tuples = [];
-		factories.forEach((factory, i) => {
-			const selector = Array.isArray(factory) ? factory[2] : factory.meta.selector;
-			const selectors = selector.split(',').map((x) => x.replace(/\[|\]/g, '').trim());
-			tuples.push(...selectors.map((selector) => ({ factory, selector })));
-		});
-		const match = function(node) {
-			tuples.forEach(function(tuple) {
-				if (node.hasAttribute(tuple.selector)) {
-					if (!results.has(node)) {
-						results.set(node, []);
-					}
-					results.get(node).push({ factory: tuple.factory, selector: tuple.selector });
-				}
-			});
-		};
-		if ('hasAttribute' in node) {
-			match(node);
-		}
-		const treeWalker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT);
-		let next = treeWalker.nextNode();
-		while (next) {
-			match(next);
-			next = treeWalker.nextNode();
-		}
-		Component.stats(`treeWalkerAttributes ${results.size}`);
-		return results;
-	}
-
-	static treeWalkerMatches(factories, node = document) {
-		const results = new Map();
-		const tuples = [];
-		factories.forEach((factory, i) => {
-			const selector = Array.isArray(factory) ? factory[2] : factory.meta.selector;
-			const selectors = selector.split(',').map((x) => x.trim());
-			tuples.push(...selectors.map((selector) => ({ factory, selector })));
-		});
-		const match = function(node) {
-			tuples.forEach(function(tuple) {
-				if (node.matches(tuple.selector)) {
-					if (!results.has(node)) {
-						results.set(node, []);
-					}
-					results.get(node).push({ factory: tuple.factory, selector: tuple.selector });
-				}
-			});
-		};
-		if ('matches' in node) {
-			match(node);
-		}
-		const treeWalker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT);
-		let next = treeWalker.nextNode();
-		while (next) {
-			match(next);
-			next = treeWalker.nextNode();
-		}
-		Component.stats(`treeWalkerMatches ${results.size}`);
-		return results;
-	}
-
-	static querySelectorAll(factories, node = document) {
-		const results = new Map();
-		const selectors = factories.map((factory) => (Array.isArray(factory) ? factory[2] : factory.meta.selector));
-		selectors.forEach(function(selector, i) {
-			const nodes = node.querySelectorAll(selector);
-			nodes.forEach((node) => {
-				if (!results.has(node)) {
-					results.set(node, []);
-				}
-				results.get(node).push({ factory: factories[i], selector: selector });
-			});
-		});
-		if ('matches' in node) {
-			selectors.forEach(function(selector, i) {
-				if (node.match(selector)) {
-					if (!results.has(node)) {
-						results.set(node, []);
-					}
-					results.get(node).push({ factory: factories[i], selector: selector });
-				}
-			});
-		}
-		Component.stats(`querySelectorAll ${results.size}`);
-		return results;
-	}
-
-	static matchesUnsplitted(factories, node = document) {
+	static matches(factories, node = document) {
 		const results = new Map();
 		const selectors = factories.map((factory) => (Array.isArray(factory) ? factory[2] : factory.meta.selector));
 		const match = function(node) {
@@ -318,7 +161,7 @@ export class Component {
 					if (!results.has(node)) {
 						results.set(node, []);
 					}
-					results.get(node).push({ factory: factories[i], selector: selector });
+					results.get(node).push({ factory: factories[i] });
 				}
 			});
 		};
@@ -333,7 +176,7 @@ export class Component {
 			match(node);
 		}
 		matchNode(node.firstElementChild);
-		Component.stats(`matchesUnsplitted ${results.size}`);
+		// Component.stats(`matches ${results.size}`);
 		return results;
 	}
 
@@ -346,142 +189,19 @@ export class Component {
 		this.instances.set(target, instances);
 		const instances$ = new Subject();
 		let results;
-		// results = Component.treeWalkerMatches(factories, target);
-		// results = Component.matchesSplitted(factories, target);
-		// results = Component.treeWalkerAttributes(factories, target);
-		// results = Component.matchesAttributes(factories, target);
-		results = Component.matchesUnsplitted(factories, target);
-		// results = Component.querySelectorAll(factories, target);
+		results = Component.matches(factories, target);
 		const observingNodes = Array.from(results.keys());
 		const initialize = (node) => {
 			if (results.has(node)) {
 				const tuples = results.get(node);
 				tuples.forEach(tuple => {
 					this.getFactory(tuple.factory).then(factory => {
-						const instance = new factory.prototype.constructor(node, tuple.selector);
+						const instance = new factory.prototype.constructor(node);
 						instances.push(instance);
 						instances$.next(instances.slice());
 					});
 				});
 			}
-		};
-		if ('IntersectionObserver' in window) {
-			const observerOptions = {
-				root: target,
-				rootMargin: '50px',
-				threshold: [0.01, 0.99],
-			};
-			const observer = new IntersectionObserver((entries, observer) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						initialize(entry.target);
-						observer.unobserve(entry.target);
-					}
-				});
-			}, observerOptions);
-			observingNodes.forEach((node) => {
-				observer.observe(node);
-			});
-			this.observers.set(target, observer);
-		} else {
-			observingNodes.forEach((node) => {
-				initialize(node);
-			});
-		}
-		return instances$;
-	}
-
-	static register$_1(factories, target = document) {
-		if (this.instances.has(target)) {
-			throw ('node already registered');
-			// Component.unregister(target);
-		}
-		const instances = [];
-		this.instances.set(target, instances);
-		const instances$ = new Subject();
-		const tuples = this.match_1(factories, target);
-		const observingNodes = tuples.map(x => x.node);
-		const initialize = (node) => {
-
-			tuples.forEach(tuple => {
-				if (tuple.node === node) {
-					this.getFactory(tuple.factory).then(factory => {
-						const instance = new factory.prototype.constructor(node, tuple.match);
-						instances.push(instance);
-						instances$.next(instances.slice());
-					});
-				}
-			});
-		};
-		if ('IntersectionObserver' in window) {
-			const observerOptions = {
-				root: target,
-				rootMargin: '50px',
-				threshold: [0.01, 0.99],
-			};
-			const observer = new IntersectionObserver((entries, observer) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						initialize(entry.target);
-						observer.unobserve(entry.target);
-					}
-				});
-			}, observerOptions);
-			observingNodes.forEach((node) => {
-				observer.observe(node);
-			});
-			this.observers.set(target, observer);
-		} else {
-			observingNodes.forEach((node) => {
-				initialize(node);
-			});
-		}
-		return instances$;
-	}
-
-	static register$_2(factories, target = document) {
-		if (this.instances.has(target)) {
-			throw ('node already registered');
-			// Component.unregister(target);
-		}
-		const instances = [];
-		this.instances.set(target, instances);
-		const instances$ = new Subject();
-		const observingNodes = [];
-		const entries = factories.map(factory => {
-			let selector;
-			if (Array.isArray(factory)) {
-				selector = factory[2];
-			} else {
-				selector = factory.meta.selector;
-			}
-			// !!! multiple selectors
-			// const selectors = selector.split(',');
-			// selectors.forEach(selector => {
-			const nodes = Array.prototype.slice.call(target.querySelectorAll(selector));
-			if ('matches' in target && target.matches(selector)) {
-				nodes.push(target);
-			}
-			nodes.forEach(node => {
-				if (observingNodes.indexOf(node) === -1) {
-					observingNodes.push(node);
-				}
-			});
-			// });
-			return {
-				factory,
-				nodes: nodes,
-			}
-		}).filter(x => x.nodes.length > 0);
-		const initialize = (node) => {
-			const nodeEntries = entries.filter(x => x.nodes.indexOf(node) !== -1);
-			nodeEntries.forEach(nodeEntry => {
-				this.getFactory(nodeEntry.factory).then(factory => {
-					const instance = new factory.prototype.constructor(node);
-					instances.push(instance);
-					instances$.next(instances.slice());
-				});
-			});
 		};
 		if ('IntersectionObserver' in window) {
 			const observerOptions = {
@@ -557,19 +277,4 @@ export class Component {
 		}
 		this.lpt = now;
 	}
-	/*
-	get parentInstance() {
-		let parentInstance = null;
-		let parentNode = this.node.parentNode;
-		while (!parentInstance && parentNode) {
-			if (parentNode.ref) {
-				parentInstance = parentNode.ref;
-			} else {
-				parentNode = parentNode.parentNode;
-			}
-		}
-		return parentInstance;
-	}
-	*/
-
 }

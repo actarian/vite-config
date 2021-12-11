@@ -1,9 +1,9 @@
-import { ContactsForm } from './contacts-form/contacts-form.component';
-import { GenericModalComponent } from './generic-modal/generic-modal.component';
+import { ContactsComponent } from './contacts/contacts.component';
+import { ModalComponent } from './modal/modal.component';
 import { SectionComponent } from './section/section.component';
 
 export const ComponentsModule = [
-	ContactsForm,
-	GenericModalComponent,
+	ContactsComponent,
+	ModalComponent,
 	SectionComponent,
 ];

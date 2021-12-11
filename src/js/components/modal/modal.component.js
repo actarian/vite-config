@@ -1,10 +1,12 @@
-import { fromEvent, takeUntil, tap } from 'rxjs';
-import { ModalService } from '../../common/modal/modal.service';
+// import { fromEvent, takeUntil, tap } from 'rxjs';
+// import { ModalService } from '../../common/modal/modal.service';
 import { Component } from '../../core/component/component';
 
-export class GenericModalComponent extends Component {
+export class ModalComponent extends Component {
 
 	onInit() {
+		console.log('I\'m a modal!');
+		/*
 		const button = this.node.querySelector('.btn--close');
 		if (button) {
 			fromEvent(button, 'click').pipe(
@@ -12,6 +14,7 @@ export class GenericModalComponent extends Component {
 				takeUntil(this.unsubscribe$),
 			).subscribe();
 		}
+		*/
 	}
 
 	static meta = {
