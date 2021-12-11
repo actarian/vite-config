@@ -7,7 +7,7 @@ import img02 from '../../../assets/02.jpg?w=1600&h=800&webp';
 import img03 from '../../../assets/03.jpg?w=1600&h=800&webp';
 import img04 from '../../../assets/04.jpg?w=1600&h=800&webp';
 */
-import { Component } from '../component/component';
+import { Component } from '../../core/component/component';
 import { DragDownEvent, DragMoveEvent, DragService, DragUpEvent } from '../drag/drag.service';
 import { KeyboardService } from '../keyboard/keyboard.service';
 import './slider.component.scss';
@@ -225,7 +225,7 @@ export class SliderComponent extends Component {
 			const cx = (options.centered ? (item.width - rect.width) / 2 : 0);
 			const x = (item.left + cx) * -1;
 			this.setWrapperX(x);
-			console.log('SliderComponent.updatePosition', current, x, cx, item.left, rect.width, item.width);
+			// console.log('SliderComponent.updatePosition', current, x, cx, item.left, rect.width, item.width);
 		}
 	}
 
@@ -333,7 +333,7 @@ export class SliderComponent extends Component {
 		if (prev) {
 			return fromEvent(prev, 'click').pipe(
 				tap(_ => {
-					console.log('prev');
+					// console.log('prev');
 					if (this.hasPrev()) {
 						this.navTo(this.current - 1);
 					}
@@ -350,7 +350,7 @@ export class SliderComponent extends Component {
 		if (next) {
 			return fromEvent(next, 'click').pipe(
 				tap(_ => {
-					console.log('next');
+					// console.log('next');
 					if (this.hasNext()) {
 						this.navTo(this.current + 1);
 					}
@@ -384,6 +384,6 @@ export class SliderComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[slider]'
+		selector: '[data-slider]'
 	};
 }

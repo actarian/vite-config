@@ -1,9 +1,9 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
-import { Component } from "../common/component/component";
-import { environment } from '../environment';
-import { ControlComponent } from "./controls/control.component";
+import { Component } from "../../core/component/component";
+import { environment } from '../../environment';
+import { ControlComponent } from "../controls/control.component";
 
-export class FormsTestComponent extends Component {
+export class TestComponent extends Component {
 
 	onInit() {
 		if (environment.flags.production) {
@@ -75,6 +75,6 @@ export class FormsTestComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[forms-test]',
+		selector: '[data-test]',
 	}
 }

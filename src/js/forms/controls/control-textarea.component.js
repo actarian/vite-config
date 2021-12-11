@@ -66,7 +66,7 @@ export class ControlTextarea extends ControlComponent {
 	}
 
 	static meta = {
-		selector: '[control-textarea]',
+		selector: '[data-control-textarea]',
 	};
 
 }

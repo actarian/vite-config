@@ -1,4 +1,4 @@
-import { Component } from '../component/component';
+import { Component } from '../../core/component/component';
 
 export class ClassComponent extends Component {
 
@@ -8,7 +8,7 @@ export class ClassComponent extends Component {
 		Array.prototype.slice.call(node.classList).forEach((value) => {
 			initialKeys.push(value);
 		});
-		const getValue = Component.getExpression(node.getAttribute('xclass') || node.getAttribute('data-class'));
+		const getValue = Component.getExpression(node.dataset.class || node.getAttribute('xclass'));
 		this.state$.subscribe(state => {
 			const value = getValue(state);
 			let keys = [];
@@ -27,6 +27,6 @@ export class ClassComponent extends Component {
 	}
 
 	static meta = {
-		selector: `[xclass],[data-class]`,
+		selector: `[data-class],[xclass]`,
 	};
 }

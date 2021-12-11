@@ -1,4 +1,4 @@
-import { Component } from '../common/component/component';
+import { Component } from '../core/component/component';
 import './lazy-section.component.scss';
 
 export class LazySectionComponent extends Component {

@@ -1,4 +1,4 @@
-import { AttrsComponent } from './attrs/attrs.component';
+import { AttributeComponent } from './attribute/attribute.component';
 import { ClassComponent } from './class/class.component';
 import { EventComponent } from './event/event.component';
 import { ForComponent } from './for/for.component';
@@ -7,7 +7,7 @@ import { IfComponent } from './if/if.component';
 import { StyleComponent } from './style/style.component';
 
 export const CoreModule = [
-	AttrsComponent,
+	AttributeComponent,
 	ClassComponent,
 	EventComponent,
 	ForComponent,

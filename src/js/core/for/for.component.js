@@ -1,5 +1,5 @@
 
-import { Component } from '../component/component';
+import { Component } from '../../core/component/component';
 
 export class ForComponent extends Component {
 
@@ -58,7 +58,7 @@ export class ForComponent extends Component {
 		this.node = ref;
 		this.template = node;
 		node.before(ref);
-		const tokens = this.tokens = ForComponent.getEachExpressionTokens(node.getAttribute('xfor') || node.getAttribute('data-for'));
+		const tokens = this.tokens = ForComponent.getEachExpressionTokens(node.dataset.for || node.getAttribute('xfor'));
 		node.remove();
 		// {key: 'index', value: 'item', iterable: 'items'}
 		// console.log(tokens);
@@ -98,7 +98,7 @@ export class ForComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[xfor],[data-for]',
+		selector: '[data-for],[xfor]',
 	};
 
 }

@@ -40,9 +40,9 @@
     <script type="module" crossorigin src="/vite-config/js/main.js"></script>
     <link rel="stylesheet" href="/vite-config/assets/main.css">
   </head>
-  <body app>
+  <body data-app>
     
-    <header class="header" header>
+    <header class="header" data-header>
 	<div class="container">
 		<div class="header__content">
 			<ul class="nav--main">
@@ -69,15 +69,15 @@
 
 <div class="contacts">
 	<div class="container">
-		<form class="form" name="form" role="form" novalidate="" autocomplete="off" action="#" contacts-form>
+		<form class="form" name="form" role="form" novalidate="" autocomplete="off" action="#" data-contacts>
 			<div class="form__fields">
 				
-				<div control-checkfield field="checkField">
+				<div data-control-checkfield data-field="checkField">
 	<input type="text" value="" name="checkField">
 </div>
 
 				
-				<div class="control" control-text field="firstName">
+				<div class="control" data-control-text data-field="firstName">
 	<div class="control__field">
 		<label for="firstName">
 			<span>
@@ -96,7 +96,7 @@
 </div>
 
 				
-				<div class="control" control-text field="lastName">
+				<div class="control" data-control-text data-field="lastName">
 	<div class="control__field">
 		<label for="lastName">
 			<span>
@@ -115,7 +115,7 @@
 </div>
 
 				
-				<div class="control" control-text field="email">
+				<div class="control" data-control-text data-field="email">
 	<div class="control__field">
 		<label for="email">
 			<span>
@@ -134,7 +134,7 @@
 </div>
 
 				
-				<div class="control" control-text field="telephone">
+				<div class="control" data-control-text data-field="telephone">
 	<div class="control__field">
 		<label for="telephone">
 			<span>
@@ -153,7 +153,7 @@
 </div>
 
 				
-				<div class="control" control-text field="job">
+				<div class="control" data-control-text data-field="job">
 	<div class="control__field">
 		<label for="job">
 			<span>
@@ -172,7 +172,7 @@
 </div>
 
 				
-				<div class="control" control-text field="company">
+				<div class="control" data-control-text data-field="company">
 	<div class="control__field">
 		<label for="company">
 			<span>
@@ -191,7 +191,7 @@
 </div>
 
 				
-				<div class="control" control-text field="city">
+				<div class="control" data-control-text data-field="city">
 	<div class="control__field">
 		<label for="city">
 			<span>
@@ -210,7 +210,7 @@
 </div>
 
 				
-				<div class="control" control-select field="country">
+				<div class="control" data-control-select data-field="country">
 	<div class="control__field control__field--select">
 		<label for="country">
 			<span>
@@ -239,7 +239,7 @@
 </div>
 
 				
-				<div class="control" control-select field="requestType">
+				<div class="control" data-control-select data-field="requestType">
 	<div class="control__field control__field--select">
 		<label for="requestType">
 			<span>
@@ -268,7 +268,7 @@
 </div>
 
 				
-				<div class="control" control-textarea field="message">
+				<div class="control" data-control-textarea data-field="message">
 	<div class="control__field--textarea">
 		<label for="message">
 			<span>
@@ -287,7 +287,7 @@
 </div>
 
 				
-				<div class="control full" control-checkbox field="privacy">
+				<div class="control full" data-control-checkbox data-field="privacy">
 	<div class="control__field--checkbox">
 		<input type="checkbox" class="control__checkbox" value="true" id="privacy">
 		<label for="privacy">
@@ -306,7 +306,7 @@
 </div>
 
 				
-				<div class="control full" control-privacy field="newsletter">
+				<div class="control full" data-control-privacy data-field="newsletter">
 	<div class="control__field--privacy">
 		<div class="control__radios">
 			<input type="radio" class="control__checkbox" value="true" id="newsletter_true" name="newsletter">
@@ -336,7 +336,7 @@
 </div>
 
 				
-				<div class="control full" control-privacy field="commercial">
+				<div class="control full" data-control-privacy data-field="commercial">
 	<div class="control__field--privacy">
 		<div class="control__radios">
 			<input type="radio" class="control__checkbox" value="true" id="commercial_true" name="commercial">
@@ -366,7 +366,7 @@
 </div>
 
 				
-				<div class="control full" control-privacy field="promotion">
+				<div class="control full" data-control-privacy data-field="promotion">
 	<div class="control__field--privacy">
 		<div class="control__radios">
 			<input type="radio" class="control__checkbox" value="true" id="promotion_true" name="promotion">
@@ -401,14 +401,14 @@
 					<span>Invia la tua richiesta</span>
 				</button>
 			</div>
-			<div class="forms-test" forms-test></div>
+			<div class="forms-test" data-test></div>
 		</form>
 	</div>
 </div>
 
 
     </main>
-    <footer class="footer" footer>
+    <footer class="footer" data-footer>
 	<div class="container">
 		<div class="footer__content">
 			<div class="footer__title">footer</div>
@@ -416,7 +416,7 @@
 	</div>
 </footer>
 
-	<div class="modal-outlet" modal-outlet></div>
+	<div class="modal-outlet" data-modal-outlet></div>
 	<script>
 		window.STATIC = true;
 	</script>

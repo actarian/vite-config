@@ -1,11 +1,11 @@
-import { Component } from '../component/component';
+import { Component } from '../../core/component/component';
 
 export class HtmlComponent extends Component {
 
 	set innerHTML(innerHTML) {
 		if (this.innerHTML_ !== innerHTML) {
 			this.innerHTML_ = innerHTML;
-			const  node = this.node;
+			const node = this.node;
 			node.innerHTML = innerHTML == undefined ? '' : innerHTML; // !!! keep == loose equality
 		}
 	}
@@ -14,14 +14,15 @@ export class HtmlComponent extends Component {
 	}
 
 	onInit() {
-		const getValue = Component.getExpression(this.node.getAttribute('xhtml') || this.node.getAttribute('data-html'));
+		const node = this.node;
+		const getValue = Component.getExpression(node.dataset.html || node.getAttribute('xhtml'));
 		this.state$.subscribe(state => {
 			this.innerHTML = getValue(state);
 		});
 	}
 
 	static meta = {
-		selector: `[xhtml],[data-html]`,
+		selector: `[data-html],[xhtml]`,
 	};
 
 }

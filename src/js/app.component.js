@@ -1,12 +1,12 @@
 import { first, takeUntil, tap } from 'rxjs';
-import { Component } from './common/component/component';
-import { EventService } from './common/event/event.service';
 import { ModalService } from './common/modal/modal.service';
+import { Component } from './core/component/component';
+import { EventService } from './core/event/event.service';
 
 export class AppComponent extends Component {
 
 	onInit() {
-		console.log('AppComponent.onInit');
+		// console.log('AppComponent.onInit');
 		this.randomItems();
 		this.modal$().pipe(
 			takeUntil(this.unsubscribe$),
@@ -32,7 +32,7 @@ export class AppComponent extends Component {
 							first(),
 							takeUntil(this.unsubscribe$)
 						).subscribe(event => {
-							console.log(event);
+							// console.log(event);
 						});
 						break;
 					case 'random':
@@ -44,7 +44,7 @@ export class AppComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[app]',
+		selector: '[data-app]',
 	};
 
 }

@@ -433,7 +433,7 @@ errors-component {
 		&>div:not(.full) {
 			@include as-col(4, 12, $gutter);
 
-			&[control-textarea] {
+			&[data-control-textarea] {
 				@include as-col(12, 12, $gutter);
 			}
 		}
@@ -447,7 +447,7 @@ errors-component {
 		&>div:not(.full) {
 			@include as-col(6, 12, $gutter);
 
-			&[control-textarea] {
+			&[data-control-textarea] {
 				@include as-col(12, 12, $gutter);
 			}
 		}
@@ -460,7 +460,7 @@ errors-component {
 		&>div:not(.full) {
 			@include as-col(12, 12, 0);
 
-			&[control-textarea] {
+			&[data-control-textarea] {
 				flex: 1 1 100%;
 				max-width: 100%;
 				margin-left: 0;
@@ -489,7 +489,7 @@ errors-component {
 		&>div:not(.full) {
 			@include as-col(6, 12, $gutter);
 
-			&[control-textarea] {
+			&[data-control-textarea] {
 				@include as-col(12, 12, $gutter);
 			}
 		}
@@ -503,7 +503,7 @@ errors-component {
 		&>div:not(.full) {
 			@include as-col(12, 12, $gutter);
 
-			&[control-textarea] {
+			&[data-control-textarea] {
 				@include as-col(12, 12, $gutter);
 			}
 		}

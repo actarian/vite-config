@@ -21,14 +21,6 @@ export class Component {
 		this.onInit();
 	}
 
-	/*
-	event$(events) {
-		return EventService.filter$(this.node, events).pipe(
-			takeUntil(this.unsubscribe$),
-		);
-	}
-	*/
-
 	onInit() { }
 
 	onChanges() { }

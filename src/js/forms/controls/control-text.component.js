@@ -63,7 +63,7 @@ export class ControlText extends ControlComponent {
 	}
 
 	static meta = {
-		selector: '[control-text]',
+		selector: '[data-control-text]',
 	};
 
 }

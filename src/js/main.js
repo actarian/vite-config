@@ -1,9 +1,9 @@
 import '../css/main-cssvars.scss';
 import { AppComponent } from './app.component';
 import { CommonModule } from './common/common.module';
-import { Component } from './common/component/component';
-import { CoreModule } from './common/core.module';
 import { ComponentsModule } from './components/components.module';
+import { Component } from './core/component/component';
+import { CoreModule } from './core/core.module';
 import { FormsModule } from './forms/forms.module';
 
 function registerApp$(parent = document) {

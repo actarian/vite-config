@@ -4,7 +4,7 @@ import { ControlPrivacy } from './controls/control-privacy.component';
 import { ControlSelect } from './controls/control-select.component';
 import { ControlText } from './controls/control-text.component';
 import { ControlTextarea } from './controls/control-textarea.component';
-import { FormsTestComponent } from './forms-test.component';
+import { TestComponent } from './test/test.component';
 
 export const FormsModule = [
 	ControlCheckfield,
@@ -13,5 +13,5 @@ export const FormsModule = [
 	ControlSelect,
 	ControlText,
 	ControlTextarea,
-	FormsTestComponent,
+	TestComponent,
 ];

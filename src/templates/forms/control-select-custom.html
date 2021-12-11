@@ -1,4 +1,4 @@
-<div class="control" control-custom-select field="{{ control.key }}">
+<div class="control" data-control-custom-select data-field="{{ control.key }}">
 	<div class="control__field--select" [class]="{ required: control.validators.length, multiple: isMultiple }" [dropdown]="dropdownId" (dropped)="onDropped($event)">
 		<label>
 			<span>

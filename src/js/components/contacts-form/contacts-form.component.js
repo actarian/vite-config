@@ -2,7 +2,7 @@
 
 
 import { first, fromEvent, map, takeUntil } from 'rxjs';
-import { Component } from '../../common/component/component';
+import { Component } from '../../core/component/component';
 import { FormControl, FormGroup, Validators } from '../../forms/forms';
 // import { ContactsService } from './contacts.service';
 
@@ -44,7 +44,7 @@ export class ContactsForm extends Component {
 		).subscribe((value) => {
 			const flags = form.flags;
 			const errors = mapErrors_(form.errors);
-			console.log(value, flags, errors);
+			// console.log(value, flags, errors);
 		});
 		*/
 		if (strategy === FormStrategy.InferData) {
@@ -71,7 +71,7 @@ export class ContactsForm extends Component {
 				{ value, flags, errors: mapErrors_(this.form.errors) }
 			)),
 		).subscribe(data => {
-			console.log(data);
+			// console.log(data);
 		});
 		*/
 		fromEvent(this.node, 'submit').pipe(
@@ -104,7 +104,7 @@ export class ContactsForm extends Component {
 		return ContactsService.data$().pipe(
 			tap(data => {
 				const controls = this.controls;
-				console.log(data, controls);
+				// console.log(data, controls);
 				// controls.country.options = FormService.toSelectOptions(data.country.options);
 			}),
 		);
@@ -115,7 +115,7 @@ export class ContactsForm extends Component {
 		const form = this.form;
 		// console.log('ContactsForm.onSubmit', form.value);
 		if (form.flags.valid) {
-			console.log('ContactsForm.onSubmit.valid!');
+			// console.log('ContactsForm.onSubmit.valid!');
 		} else {
 			event.preventDefault();
 			form.touched = true;
@@ -128,7 +128,7 @@ export class ContactsForm extends Component {
 		}
 		/*
 		const form = this.form;
-		console.log('ContactsComponent.onSubmit', form.value);
+		// console.log('ContactsComponent.onSubmit', form.value);
 		// console.log('ContactsComponent.onSubmit', 'form.valid', valid);
 		if (form.valid) {
 			// console.log('ContactsComponent.onSubmit', form.value);
@@ -149,7 +149,7 @@ export class ContactsForm extends Component {
 					});
 				}
 			}, error => {
-				console.log('ContactsComponent.error', error);
+				// console.log('ContactsComponent.error', error);
 				this.error = error;
 				this.pushChanges();
 				LocomotiveScrollService.update();
@@ -186,7 +186,7 @@ export class ContactsForm extends Component {
 	}
 
 	static meta = {
-		selector: '[contacts-form]',
+		selector: '[data-contacts]',
 	};
 
 }

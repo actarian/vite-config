@@ -2,11 +2,11 @@ import { Component } from '../component/component';
 
 const ATTRIBUTES = ['action', 'align', 'allow', 'alt', 'autoplay', 'background', 'bgcolor', 'border', 'checked', 'class', 'color', 'cols', 'colspan', 'content', 'contenteditable', 'contextmenu', 'controls', 'coords', 'csp', 'data', 'datetime', 'decoding', 'default', 'defer', 'dir', 'dirname', 'disabled', 'download', 'draggable', 'enctype', 'enterkeyhint', 'for', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'http-equiv', 'icon', 'id', 'importance', 'integrity', 'intrinsicsize', 'inputmode', 'ismap', 'itemprop', 'keytype', 'kind', 'label', 'lang', 'language', 'loading', 'list', 'loop', 'low', 'max', 'maxlength', 'minlength', 'media', 'method', 'min', 'multiple', 'muted', 'name', 'novalidate', 'pattern', 'placeholder', 'poster', 'preload', 'radiogroup', 'readonly', 'rel', 'required', 'reversed', 'rows', 'rowspan', 'selected', 'span', 'src', 'srcdoc', 'srclang', 'srcset', 'start', 'step', 'style', 'tabindex', 'target', 'title', 'type', 'value', 'width', 'wrap'];
 
-export class AttrsComponent extends Component {
+export class AttributeComponent extends Component {
 
 	onInit() {
 		const node = this.node;
-		const getValue = Component.getExpression(node.getAttribute('attrs'));
+		const getValue = Component.getExpression(node.dataset.attr || node.getAttribute('xattr'));
 		this.state$.subscribe(state => {
 			const value = getValue(state);
 			Object.keys(value).forEach(key => {
@@ -18,7 +18,7 @@ export class AttrsComponent extends Component {
 	}
 
 	static meta = {
-		selector: `[xattrs],[data-attrs]`,
+		selector: `[data-attr],[xattr]`,
 	};
 
 }

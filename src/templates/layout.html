@@ -37,14 +37,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap" rel="stylesheet">
     -->
   </head>
-  <body app>
+  <body data-app>
     {% block css %}{% endblock %}
     {% include "./shared/header.html" %}
     <main>
       {% block main %} This is the default content {% endblock %}
     </main>
     {% include "./shared/footer.html" %}
-	<div class="modal-outlet" modal-outlet></div>
+	<div class="modal-outlet" data-modal-outlet></div>
 	<script>
 		window.STATIC = true;
 	</script>

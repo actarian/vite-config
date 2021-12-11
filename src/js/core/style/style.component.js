@@ -1,10 +1,10 @@
-import { Component } from '../component/component';
+import { Component } from '../../core/component/component';
 
 export class StyleComponent extends Component {
 
 	onInit() {
 		const node = this.node;
-		const getValue = Component.getExpression(node.getAttribute('xstyle') || node.getAttribute('data-style'));
+		const getValue = Component.getExpression(node.dataset.style || node.getAttribute('xstyle'));
 		this.state$.subscribe(state => {
 			const style = getValue(state);
 			const previousStyle = this.previousStyle;
@@ -32,6 +32,6 @@ export class StyleComponent extends Component {
 	}
 
 	static meta = {
-		selector: `[xstyle],[data-style]`,
+		selector: `[data-style],[xstyle]`,
 	};
 }

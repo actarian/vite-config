@@ -2,7 +2,7 @@
 
 
 import { takeUntil } from 'rxjs';
-import { Component } from '../../common/component/component';
+import { Component } from '../../core/component/component';
 import { mapErrors_ } from '../helpers/helpers';
 
 export class ControlComponent extends Component {
@@ -62,7 +62,7 @@ export class ControlComponent extends Component {
 	}
 
 	static getField(node) {
-		return node.getAttribute('field');
+		return node.getAttribute('data-field');
 	}
 
 	static getForm(node) {
@@ -78,6 +78,6 @@ export class ControlComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[control]',
+		selector: '[data-control]',
 	};
 }

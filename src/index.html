@@ -11,11 +11,11 @@
 <!-- include "src/templates/shared/hero.html" -->
 {% include "src/templates/shared/slider.html" %}
 
-<div class="section" section>
+<div class="section" data-section>
 	<div class="container">
 		<div class="section__content">
 			<div class="section__time"></div>
-			<div class="section__title" attrs="{ id: 'id', title: 'title', alt: 'alt' }">I'm a component</div>
+			<div class="section__title" data-attr="{ id: 'id', title: 'title', alt: 'alt' }">I'm a component</div>
 		</div>
 	</div>
 </div>
@@ -25,11 +25,11 @@
 		<div class="section__content">
 			<div class="section__title">If component</div>
 			<div class="section__title">
-				<span xhtml="items.length"></span> is
-				<span xif="items.length % 2 == 0">pair</span>
-				<span xif="items.length % 2 != 0">odd</span>
+				<span data-html="items.length"></span> is
+				<span data-if="items.length % 2 == 0">pair</span>
+				<span data-if="items.length % 2 != 0">odd</span>
 			</div>
-			<button type="button" class="btn--secondary" event="random">click</button>
+			<button type="button" class="btn--secondary" data-event="random">click</button>
 		</div>
 	</div>
 </div>
@@ -39,11 +39,11 @@
 		<div class="section__content">
 			<div class="section__title">Each component</div>
 			<div class="listing--items">
-				<div class="listing__item" xfor="let item of items">
-					<div xhtml="item.title"></div>
+				<div class="listing__item" data-for="let item of items">
+					<div data-html="item.title"></div>
 				</div>
 			</div>
-			<button type="button" class="btn--secondary" event="random">click</button>
+			<button type="button" class="btn--secondary" data-event="random">click</button>
 		</div>
 	</div>
 </div>
@@ -52,11 +52,10 @@
 	<div class="container">
 		<div class="section__content">
 			<div class="section__title">Class component</div>
-			<div class="section__title" xclass="{ red: items.length % 2 == 0, green: items.length % 2 != 0 }">
-				<span xif="items.length % 2 == 0">red</span>
-				<span xif="items.length % 2 != 0">green</span>
+			<div class="section__title" data-class="{ red: items.length % 2 == 0, green: items.length % 2 != 0 }">
+				<span data-html="items.length"></span> is <span data-html="(items.length % 2 == 0) ? 'red' : 'green'"></span>
 			</div>
-			<button type="button" class="btn--secondary" event="random">click</button>
+			<button type="button" class="btn--secondary" data-event="random">click</button>
 		</div>
 	</div>
 </div>
@@ -65,11 +64,10 @@
 	<div class="container">
 		<div class="section__content">
 			<div class="section__title">Style component</div>
-			<div class="section__title" xstyle="{ color: items.length % 2 == 0 ? 'yellow' : 'blue' }">
-				<span xif="items.length % 2 == 0">yellow</span>
-				<span xif="items.length % 2 != 0">blue</span>
+			<div class="section__title" data-style="{ color: items.length % 2 == 0 ? 'yellow' : 'blue' }">
+				<span data-html="items.length"></span> is <span data-html="(items.length % 2 == 0) ? 'yellow' : 'blue'"></span>
 			</div>
-			<button type="button" class="btn--secondary" event="random">click</button>
+			<button type="button" class="btn--secondary" data-event="random">click</button>
 		</div>
 	</div>
 </div>
@@ -78,7 +76,7 @@
 	<div class="container">
 		<div class="section__content">
 			<div class="section__title">Modal</div>
-			<button type="button" class="btn--primary" event="modal">open</button>
+			<button type="button" class="btn--primary" data-event="modal">open</button>
 		</div>
 	</div>
 </div>
@@ -92,7 +90,7 @@
 	</div>
 </div>
 
-<div class="section" section>
+<div class="section" data-section>
 	<div class="container">
 		<div class="section__content">
 			<div class="section__time"></div>
@@ -110,7 +108,7 @@
 	</div>
 </div>
 
-<div class="section" section>
+<div class="section" data-section>
 	<div class="container">
 		<div class="section__content">
 			<div class="section__time"></div>

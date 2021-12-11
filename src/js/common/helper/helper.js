@@ -53,7 +53,7 @@ const observer = new MutationObserver(function(mutations_list) {
 	mutations_list.forEach(function(mutation) {
 		mutation.addedNodes.forEach(function(added_node) {
 			if(added_node.id == 'child') {
-				console.log('#child has been added');
+				// console.log('#child has been added');
 				observer.disconnect();
 			}
 		});

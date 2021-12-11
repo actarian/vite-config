@@ -63,7 +63,7 @@ export class ControlSelect extends ControlComponent {
 	}
 
 	static meta = {
-		selector: '[control-select]',
+		selector: '[data-control-select]',
 	};
 
 }

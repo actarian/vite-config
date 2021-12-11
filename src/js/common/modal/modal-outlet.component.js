@@ -1,7 +1,7 @@
 
 import { merge, takeUntil, tap } from 'rxjs';
-import { Component } from '../component/component';
-import { EventService } from '../event/event.service';
+import { Component } from '../../core/component/component';
+import { EventService } from '../../core/event/event.service';
 import './modal-outlet.component.scss';
 import { ModalService } from './modal.service';
 
@@ -27,7 +27,7 @@ export class ModalOutletComponent extends Component {
 		const node = this.node;
 		node.innerHTML = /* html */ `
 		<div class="modal-outlet__container">
-			<div class="modal-outlet__background" event="close"></div>
+			<div class="modal-outlet__background" data-event="close"></div>
 			<div class="modal-outlet__modal"></div>
 			<div class="spinner spinner--contrasted"></div>
 		</div>
@@ -123,7 +123,7 @@ export class ModalOutletComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[modal-outlet]',
+		selector: '[data-modal-outlet]',
 	};
 
 }

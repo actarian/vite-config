@@ -63,7 +63,7 @@ export class ControlPrivacy extends ControlComponent {
 	}
 
 	static meta = {
-		selector: '[control-privacy]',
+		selector: '[data-control-privacy]',
 	};
 
 }

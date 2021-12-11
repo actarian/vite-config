@@ -7,7 +7,7 @@ import { ControlText } from './control-text.component';
 export class ControlCheckbox extends ControlText {
 
 	static meta = {
-		selector: '[control-checkbox]',
+		selector: '[data-control-checkbox]',
 	};
 
 	onChanged() {

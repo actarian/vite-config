@@ -1,4 +1,4 @@
-import { Component } from '../../common/component/component';
+import { Component } from '../../core/component/component';
 import './section.component.scss';
 
 export class SectionComponent extends Component {
@@ -11,7 +11,7 @@ export class SectionComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[section]',
+		selector: '[data-section]',
 	};
 
 }

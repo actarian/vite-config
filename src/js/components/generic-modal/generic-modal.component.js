@@ -1,6 +1,6 @@
 import { fromEvent, takeUntil, tap } from 'rxjs';
-import { Component } from '../../common/component/component';
 import { ModalService } from '../../common/modal/modal.service';
+import { Component } from '../../core/component/component';
 
 export class GenericModalComponent extends Component {
 
@@ -15,7 +15,7 @@ export class GenericModalComponent extends Component {
 	}
 
 	static meta = {
-		selector: '[generic-modal]',
+		selector: '[data-modal]',
 	};
 
 }

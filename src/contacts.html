@@ -13,7 +13,7 @@
 
 <div class="contacts">
 	<div class="container">
-		<form class="form" name="form" role="form" novalidate="" autocomplete="off" action="#" contacts-form>
+		<form class="form" name="form" role="form" novalidate="" autocomplete="off" action="#" data-contacts>
 			<div class="form__fields">
 				{% set control = { key: 'checkField' } %}
 				{% include "src/templates/forms/control-checkfield.html" %}
@@ -51,7 +51,7 @@
 					<span>Invia la tua richiesta</span>
 				</button>
 			</div>
-			<div class="forms-test" forms-test></div>
+			<div class="forms-test" data-test></div>
 		</form>
 	</div>
 </div>
