@@ -18,10 +18,6 @@
     "file": "js/lazy-section.component.js",
     "src": "js/modules/lazy-section.component.js",
     "isDynamicEntry": true,
-    "imports": [
-      "_main.js",
-      "_vendor.js"
-    ],
     "css": [
       "assets/lazy-section.component.css"
     ]

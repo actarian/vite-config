@@ -2,71 +2,59 @@
 
 
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
-import { ControlComponent } from './control.component';
+import { getControl, updateControl } from './control.component';
 
-export class ControlTextarea extends ControlComponent {
+export function ControlTextarea(node, unsubscribe$) {
+	const control = getControl(node);
+	const textarea = node.querySelector('textarea');
 
-	onControl(fieldName, control, form) {
-		// console.log('ControlTextarea.onControl', fieldName, control, form);
-		const textarea = this.textarea = this.node.querySelector('textarea');
-		this.listeners$().pipe(
-			takeUntil(this.unsubscribe$),
+	if (control) {
+		control.changes$.pipe(
+			takeUntil(unsubscribe$),
+		).subscribe((value) => {
+			updateControl(node, control);
+			textarea.disabled = control.flags.disabled;
+			textarea.readOnly = control.flags.readonly;
+			if (control.flags.touched && control.errors.length) {
+				console.log('ControlTextarea.onChanged.error', control.errors.map(error => error.key));
+			}
+			if (textarea.value !== control.value) {
+				textarea.value = control.value;
+			}
+		});
+
+		listeners$().pipe(
+			takeUntil(unsubscribe$),
 		).subscribe();
 	}
 
-	onChanged() {
-		const textarea = this.textarea;
-		const control = this.control;
-		// console.log('ControlTextarea.onChanged');
-		textarea.disabled = control.flags.disabled;
-		textarea.readOnly = control.flags.readonly;
-		if (control.flags.touched && control.errors.length) {
-			console.log('ControlTextarea.onChanged.error', control.errors.map(error => error.key));
-		}
-		if (textarea.value !== control.value) {
-			textarea.value = control.value;
-		}
-	}
-
-	listeners$() {
+	function listeners$() {
 		return merge(
-			this.change$(),
-			this.focus$(),
-			this.blur$(),
+			change$(),
+			blur$(),
 		)
 	}
 
-	change$() {
+	function change$() {
 		return merge(
-			fromEvent(this.textarea, 'input'),
-			fromEvent(this.textarea, 'change'),
+			fromEvent(textarea, 'input'),
+			fromEvent(textarea, 'change'),
 		).pipe(
 			tap(event => {
-				this.control.patch(event.target.value);
+				control.patch(event.target.value);
 			})
 		);
 	}
 
-	focus$() {
-		return fromEvent(this.textarea, 'focus').pipe(
+	function blur$() {
+		return fromEvent(textarea, 'blur').pipe(
 			tap(event => {
-				this.focus = true;
-				this.onUpdate();
+				control.touched = true;
 			})
 		);
 	}
+}
 
-	blur$() {
-		return fromEvent(this.textarea, 'blur').pipe(
-			tap(event => {
-				this.focus = false;
-				this.control.touched = true;
-			})
-		);
-	}
-
-	static meta = {
-		selector: '[data-control-textarea]',
-	};
-
+ControlTextarea.meta = {
+	selector: '[data-control-textarea]',
 }

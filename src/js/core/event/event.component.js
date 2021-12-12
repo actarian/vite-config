@@ -1,20 +1,10 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
-import { Component } from '../../core/component/component';
 import { EventService } from './event.service';
 
 const EVENTS = ['event', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'mousemove', 'contextmenu', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup', 'input', 'change', 'loaded'];
 
-export class EventComponent extends Component {
-
-	onInit() {
-		// console.log('EventComponent.onInit');
-		this.event$().pipe(
-			takeUntil(this.unsubscribe$),
-		).subscribe();
-	}
-
-	event$() {
-		const node = this.node;
+export function EventComponent(node, unsubscribe$) {
+	function event$() {
 		const events = EVENTS.filter(x => node.dataset[x] || node.hasAttribute(x));
 		return merge(...events.map(event => {
 			const eventName = event === 'event' ? 'click' : event;
@@ -27,8 +17,11 @@ export class EventComponent extends Component {
 			);
 		}));
 	}
-
-	static meta = {
-		selector: `[data-${EVENTS.join('],[')}],[${EVENTS.join('],[')}]`,
-	};
+	event$().pipe(
+		takeUntil(unsubscribe$),
+	).subscribe();
 }
+
+EventComponent.meta = {
+	selector: `[data-${EVENTS.join('],[')}],[${EVENTS.join('],[')}]`,
+};

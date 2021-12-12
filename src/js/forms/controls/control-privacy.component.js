@@ -1,69 +1,60 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
-import { ControlComponent } from './control.component';
+import { getControl, updateControl } from './control.component';
 
-export class ControlPrivacy extends ControlComponent {
+export function ControlPrivacy(node, unsubscribe$) {
+	const control = getControl(node);
+	const inputs = Array.prototype.slice.call(node.querySelectorAll('input'));
+	inputs.forEach((input, i) => {
+		(control.value === true && i === 0) || (control.value === false && i === 1) ? input.setAttribute('checked', '') : input.removeAttribute('checked');
+	});
 
-	onControl(fieldName, control, form) {
-		// console.log('ControlPrivacy.onControl', fieldName, control, form);
-		const inputs = this.inputs = Array.prototype.slice.call(this.node.querySelectorAll('input'));
-		inputs.forEach((input, i) => {
-			(control.value === true && i === 0) || (control.value === false && i === 1) ? input.setAttribute('checked', '') : input.removeAttribute('checked');
+	if (control) {
+		control.changes$.pipe(
+			takeUntil(unsubscribe$),
+		).subscribe((value) => {
+			updateControl(node, control);
+			inputs.forEach((input, i) => {
+				input.disabled = control.flags.disabled;
+				input.readOnly = control.flags.readonly;
+				(control.value === true && i === 0) || (control.value === false && i === 1) ? input.setAttribute('checked', '') : input.removeAttribute('checked');
+			});
+			if (control.flags.touched && control.errors.length) {
+				console.log('ControlText.onChanged.error', control.errors.map(error => error.key));
+			}
 		});
-		this.listeners$().pipe(
-			takeUntil(this.unsubscribe$),
+
+		listeners$().pipe(
+			takeUntil(unsubscribe$),
 		).subscribe();
 	}
 
-	onChanged() {
-		const inputs = this.inputs;
-		const control = this.control;
-		// console.log('ControlPrivacy.onChanged');
-		inputs.forEach((input, i) => {
-			input.disabled = control.flags.disabled;
-			input.readOnly = control.flags.readonly;
-			(control.value === true && i === 0) || (control.value === false && i === 1) ? input.setAttribute('checked', '') : input.removeAttribute('checked');
-		});
-		if (control.flags.touched && control.errors.length) {
-			console.log('ControlText.onChanged.error', control.errors.map(error => error.key));
-		}
-	}
-
-	listeners$() {
+	function listeners$() {
 		return merge(
-			this.change$(),
-			this.focus$(),
-			this.blur$(),
+			change$(),
+			blur$(),
 		)
 	}
 
-	change$() {
-		return fromEvent(this.inputs, 'change').pipe(
+	function change$() {
+		return merge(
+			fromEvent(inputs, 'input'),
+			fromEvent(inputs, 'change'),
+		).pipe(
 			tap(event => {
-				this.control.patch(event.target.value);
+				control.patch(event.target.value);
 			})
 		);
 	}
 
-	focus$() {
-		return fromEvent(this.inputs, 'focus').pipe(
+	function blur$() {
+		return fromEvent(inputs, 'blur').pipe(
 			tap(event => {
-				this.focus = true;
-				this.onUpdate();
+				control.touched = true;
 			})
 		);
 	}
+}
 
-	blur$() {
-		return fromEvent(this.inputs, 'blur').pipe(
-			tap(event => {
-				this.focus = false;
-				this.control.touched = true;
-			})
-		);
-	}
-
-	static meta = {
-		selector: '[data-control-privacy]',
-	};
-
+ControlPrivacy.meta = {
+	selector: '[data-control-privacy]',
 }

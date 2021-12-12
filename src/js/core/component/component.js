@@ -54,8 +54,12 @@ export class Component {
 	}
 
 	get state$() {
+		return Component.getState$(this.node);
+	}
+
+	static getState$(node) {
 		let state$ = null;
-		let parentNode = this.node.parentNode;
+		let parentNode = node.parentNode;
 		while (!state$ && parentNode) {
 			if (Component.states.has(parentNode)) {
 				state$ = Component.states.get(parentNode);
@@ -196,8 +200,20 @@ export class Component {
 				const tuples = results.get(node);
 				tuples.forEach(tuple => {
 					this.getFactory(tuple.factory).then(factory => {
-						const instance = new factory.prototype.constructor(node);
-						instances.push(instance);
+						// console.log(factory, factory.prototype);
+						/*
+						const subject = new Subject();
+						factory(node, subject);
+						subjects.push(subject);
+						*/
+						if (factory.length === 2) {
+							const subject = new Subject();
+							factory(node, subject);
+							instances.push(subject);
+						} else {
+							const instance = new factory.prototype.constructor(node);
+							instances.push(instance);
+						}
 						instances$.next(instances.slice());
 					});
 				});
@@ -237,7 +253,13 @@ export class Component {
 		}
 		if (this.instances.has(target)) {
 			const instances = this.instances.get(target);
-			instances.forEach(instance => instance.destroy());
+			instances.forEach(instance => {
+				if (typeof instance.destroy === 'function') {
+					instance.destroy();
+				} else {
+					instance.next();
+				}
+			});
 			this.instances.delete(target);
 		}
 		if (this.states.has(target)) {

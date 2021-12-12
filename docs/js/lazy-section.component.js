@@ -1,1 +1,1 @@
-import{C as n}from"./main.js";import"./vendor.js";class m extends n{onInit(){const o=Math.floor(performance.now()/100)/10;console.log("LazySectionComponent.onInit",o),this.node.querySelector(".section__time").innerHTML=`LazySectionComponent.onInit at ${o}s`}}export{m as LazySectionComponent};
+function t(o,e){const n=Math.floor(performance.now()/100)/10;console.log("LazySectionComponent.onInit",n),o.querySelector(".section__time").innerHTML=`LazySectionComponent.onInit at ${n}s`}export{t as LazySectionComponent};

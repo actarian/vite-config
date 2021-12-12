@@ -1,56 +1,52 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
-import { Component } from "../../core/component/component";
 import { environment } from '../../environment';
-import { ControlComponent } from "../controls/control.component";
+import { getForm } from "../controls/control.component";
 
-export class TestComponent extends Component {
-
-	onInit() {
-		if (environment.flags.production) {
-			return;
-		}
-		const form = this.form = ControlComponent.getForm(this.node);
-		if (!form) {
-			return;
-		}
-		this.node.innerHTML = /*html*/`
-			<code class="forms-test__code"[innerHTML]="form.value | json"></code>
-			<button type="button" class="btn--submit"><span>Test</span></button>
-			<button type="button" class="btn--reset"><span>Reset</span></button>
-		`;
-		const code = this.code = this.node.querySelector('.forms-test__code');
-		this.listeners$().pipe(
-			takeUntil(this.unsubscribe$),
-		).subscribe();
+export function TestComponent(node, unsubscribe$) {
+	if (environment.flags.production) {
+		return;
+	}
+	const form = getForm(node);
+	if (!form) {
+		return;
 	}
 
-	listeners$() {
+	node.innerHTML = /*html*/`
+		<code class="forms-test__code"[innerHTML]="form.value | json"></code>
+		<button type="button" class="btn--submit"><span>Test</span></button>
+		<button type="button" class="btn--reset"><span>Reset</span></button>
+	`;
+	const code = node.querySelector('.forms-test__code');
+	listeners$().pipe(
+		takeUntil(unsubscribe$),
+	).subscribe();
+
+	function listeners$() {
 		return merge(
-			this.change$(),
-			this.test$(),
-			this.reset$(),
+			change$(),
+			test$(),
+			reset$(),
 		)
 	}
 
-	change$() {
-		return this.form.changes$.pipe(
+	function change$() {
+		return form.changes$.pipe(
 			tap(value => {
-				this.code.innerText = JSON.stringify(value);
+				code.innerText = JSON.stringify(value);
 			}),
 		)
 	}
 
-	test$() {
-		const button = this.node.querySelector('.btn--submit');
+	function test$() {
+		const button = node.querySelector('.btn--submit');
 		return fromEvent(button, 'click').pipe(
 			tap(event => {
-				const form = this.form;
 				if (typeof form.test === 'function') {
 					form.test();
 				} else {
 					const values = {};
-					Object.keys(this.form.controls).forEach(key => {
-						const control = this.form.controls[key];
+					Object.keys(form.controls).forEach(key => {
+						const control = form.controls[key];
 						if (control.validators.length) {
 							if (control.options) {
 								values[key] = control.options.length > 1 ? control.options[1].id : null;
@@ -59,22 +55,22 @@ export class TestComponent extends Component {
 							}
 						}
 					});
-					this.form.patch(values);
+					form.patch(values);
 				}
-			})
+			}),
 		);
 	}
 
-	reset$() {
-		const button = this.node.querySelector('.btn--reset');
+	function reset$() {
+		const button = node.querySelector('.btn--reset');
 		return fromEvent(button, 'click').pipe(
 			tap(event => {
-				this.form.reset();
-			})
+				form.reset();
+			}),
 		);
 	}
+}
 
-	static meta = {
-		selector: '[data-test]',
-	}
+TestComponent.meta = {
+	selector: '[data-test]',
 }
