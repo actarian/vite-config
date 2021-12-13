@@ -197,6 +197,12 @@ export class Component {
 		const observingNodes = Array.from(results.keys());
 		const initialize = (node) => {
 			if (results.has(node)) {
+				const data = {};
+				Object.keys(node.dataset).forEach(key => {
+					data[key] = node.dataset[key];
+					// delete node.dataset[key];
+				});
+				console.log('data', data);
 				const tuples = results.get(node);
 				tuples.forEach(tuple => {
 					this.getFactory(tuple.factory).then(factory => {
@@ -206,9 +212,9 @@ export class Component {
 						factory(node, subject);
 						subjects.push(subject);
 						*/
-						if (factory.length === 2) {
+						if (factory.length > 0) {
 							const subject = new Subject();
-							factory(node, subject);
+							factory(node, subject, data);
 							instances.push(subject);
 						} else {
 							const instance = new factory.prototype.constructor(node);

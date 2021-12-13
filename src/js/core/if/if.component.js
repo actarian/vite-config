@@ -2,7 +2,8 @@
 import { takeUntil } from 'rxjs';
 import { Component } from '../../core/component/component';
 
-export function IfComponent(node, unsubscribe$) {
+export function IfComponent(node, unsubscribe$, data) {
+	console.log(data);
 	// const originalNode = node.cloneNode(true);
 	const ref = document.createComment('if');
 	node.parentNode.replaceChild(ref, node);
