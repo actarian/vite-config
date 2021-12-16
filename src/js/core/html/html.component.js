@@ -1,8 +1,8 @@
 import { takeUntil } from 'rxjs';
 import { Component } from '../../core/component/component';
 
-export function HtmlComponent(node, unsubscribe$) {
-	const getValue = Component.getExpression(node.dataset.html || node.getAttribute('xhtml'));
+export function HtmlComponent(node, data, unsubscribe$) {
+	const getValue = Component.getExpression(data.html);
 	let innerHTML_;
 	const state$ = Component.getState$(node);
 	state$.pipe(
@@ -17,5 +17,5 @@ export function HtmlComponent(node, unsubscribe$) {
 }
 
 HtmlComponent.meta = {
-	selector: `[data-html],[xhtml]`,
+	selector: `[data-html]`,
 };

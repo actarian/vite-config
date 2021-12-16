@@ -1,8 +1,8 @@
 import { takeUntil } from 'rxjs';
 import { Component } from '../../core/component/component';
 
-export function StyleComponent(node, unsubscribe$) {
-	const getValue = Component.getExpression(node.dataset.style || node.getAttribute('xstyle'));
+export function StyleComponent(node, data, unsubscribe$) {
+	const getValue = Component.getExpression(data.style);
 	let previousStyle;
 	const state$ = Component.getState$(node);
 	state$.pipe(
@@ -33,5 +33,5 @@ export function StyleComponent(node, unsubscribe$) {
 }
 
 StyleComponent.meta = {
-	selector: `[data-style],[xstyle]`,
+	selector: `[data-style]`,
 };

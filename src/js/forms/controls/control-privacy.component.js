@@ -1,8 +1,8 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { getControl, updateControl } from './control.component';
 
-export function ControlPrivacy(node, unsubscribe$) {
-	const control = getControl(node);
+export function ControlPrivacy(node, data, unsubscribe$) {
+	const control = getControl(node, data.field);
 	const inputs = Array.prototype.slice.call(node.querySelectorAll('input'));
 	inputs.forEach((input, i) => {
 		(control.value === true && i === 0) || (control.value === false && i === 1) ? input.setAttribute('checked', '') : input.removeAttribute('checked');

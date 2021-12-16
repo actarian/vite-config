@@ -4,8 +4,8 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { getControl, updateControl } from './control.component';
 
-export function ControlTextarea(node, unsubscribe$) {
-	const control = getControl(node);
+export function ControlTextarea(node, data, unsubscribe$) {
+	const control = getControl(node, data.field);
 	const textarea = node.querySelector('textarea');
 
 	if (control) {

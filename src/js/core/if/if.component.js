@@ -2,15 +2,13 @@
 import { takeUntil } from 'rxjs';
 import { Component } from '../../core/component/component';
 
-export function IfComponent(node, unsubscribe$, data) {
-	console.log(data);
+export function IfComponent(node, data, unsubscribe$, originalNode) {
+	delete originalNode.dataset.if;
+	const template = originalNode;
 	// const originalNode = node.cloneNode(true);
+	const getValue = Component.getExpression(data.if);
 	const ref = document.createComment('if');
 	node.parentNode.replaceChild(ref, node);
-	const template = node.cloneNode(true);
-	template.removeAttribute('xif');
-	template.removeAttribute('data-if');
-	const getValue = Component.getExpression(node.dataset.if || node.getAttribute('xif'));
 	let flag_;
 	let clonedNode;
 	const state$ = Component.getState$(ref);
@@ -38,5 +36,6 @@ export function IfComponent(node, unsubscribe$, data) {
 }
 
 IfComponent.meta = {
-	selector: '[data-if],[xif]',
+	selector: '[data-if]',
+	structure: true,
 }

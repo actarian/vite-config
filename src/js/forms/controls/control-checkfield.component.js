@@ -5,8 +5,8 @@ import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { ControlText } from './control-text.component';
 import { getControl, updateControl } from './control.component';
 
-export function ControlCheckfield(node, unsubscribe$) {
-	const control = getControl(node);
+export function ControlCheckfield(node, data, unsubscribe$) {
+	const control = getControl(node, data.field);
 	const input = node.querySelector('input');
 
 	if (control) {

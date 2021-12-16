@@ -4,8 +4,8 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { getControl, updateControl } from './control.component';
 
-export function ControlSelect(node, unsubscribe$) {
-	const control = getControl(node);
+export function ControlSelect(node, data, unsubscribe$) {
+	const control = getControl(node, data.field);
 	const select = node.querySelector('select');
 
 	if (control) {

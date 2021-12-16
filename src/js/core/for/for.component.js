@@ -2,11 +2,10 @@
 import { takeUntil } from 'rxjs';
 import { Component } from '../../core/component/component';
 
-export function ForComponent(node, unsubscribe$) {
-	const tokens = getEachExpressionTokens(node.dataset.for || node.getAttribute('xfor'));
-	const template = node.cloneNode(true);
-	template.removeAttribute('xfor');
-	template.removeAttribute('data-for');
+export function ForComponent(node, data, unsubscribe$, originalNode) {
+	delete originalNode.dataset.for;
+	const template = originalNode;
+	const tokens = getEachExpressionTokens(data.for);
 	const ref = document.createComment('for');
 	node.before(ref);
 	node.remove();
@@ -69,7 +68,8 @@ export function ForComponent(node, unsubscribe$) {
 }
 
 ForComponent.meta = {
-	selector: '[data-for],[xfor]',
+	selector: '[data-for]',
+	structure: true,
 };
 
 function getEachExpressionTokens(expression) {

@@ -11,7 +11,7 @@ export const FormStrategy = {
 	ApiData: 'api',
 }
 
-export function ContactsComponent(node, unsubscribe$) {
+export function ContactsComponent(node, data, unsubscribe$) {
 	const strategy = node.getAttribute('strategy') || FormStrategy.InferData;
 	const state = Component.newState(node);
 	state.error = true;

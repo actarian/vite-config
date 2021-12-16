@@ -15,7 +15,8 @@
 	<div class="container">
 		<div class="section__content">
 			<div class="section__time"></div>
-			<div class="section__title" data-attr="{ id: 'id', title: 'title', alt: 'alt' }">I'm a component</div>
+			<div class="section__title" data-attr="{ id: 'id', title: 'title', alt: 'alt' }">Attr component</div>
+			<a href="#" data-attr="{ href: '#id' }">nav to id</a>
 		</div>
 	</div>
 </div>
@@ -37,9 +38,9 @@
 <div class="section">
 	<div class="container">
 		<div class="section__content">
-			<div class="section__title">Each component</div>
+			<div class="section__title">For component</div>
 			<div class="listing--items">
-				<div class="listing__item" data-for="let item of items">
+				<div class="listing__item" data-click="onClick(item)" data-attr="{ title: item.title }" data-for="let item of items">
 					<div data-html="item.title"></div>
 				</div>
 			</div>

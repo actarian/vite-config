@@ -15,8 +15,8 @@ export function getForm(node) {
 	return form;
 }
 
-export function getControl(node) {
-	const fieldName = getField(node);
+export function getControl(node, fieldName) {
+	// const fieldName = getField(node);
 	if (fieldName === '') {
 		return;
 	}
@@ -48,6 +48,8 @@ function hasValue(control) {
 	return control.value != null && control.value != '';
 }
 
+/*
 function getField(node) {
 	return node.getAttribute('data-field');
 }
+*/

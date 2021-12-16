@@ -2,13 +2,15 @@ import { BehaviorSubject, EMPTY, Subject } from 'rxjs';
 
 const modules = import.meta.glob('../../modules/*.js');
 
-const noderef = new Map();
+const noderef = new WeakMap();
 
 export class Component {
 
-	constructor(node) {
+	constructor(node, data, unsubscribe$, originalNode) {
 		this.node = node;
-		this.unsubscribe$ = new Subject();
+		this.data = data;
+		this.unsubscribe$ = unsubscribe$;
+		this.originalNode = originalNode;
 		let refs;
 		if (noderef.has(node)) {
 			refs = noderef.get(node);
@@ -35,6 +37,7 @@ export class Component {
 		if (refs.length === 0) {
 			noderef.delete(node);
 		}
+		// ???
 		Component.instances.forEach(instances => {
 			const index = instances.indexOf(this);
 			if (index !== -1) {
@@ -59,7 +62,7 @@ export class Component {
 
 	static getState$(node) {
 		let state$ = null;
-		let parentNode = node.parentNode;
+		let parentNode = node; // .parentNode;
 		while (!state$ && parentNode) {
 			if (Component.states.has(parentNode)) {
 				state$ = Component.states.get(parentNode);
@@ -70,10 +73,38 @@ export class Component {
 		return state$ || EMPTY;
 	}
 
-	static observers = new Map();
-	static instances = new Map();
+	static getState(node) {
+		const state$ = this.getState$(node);
+		return state$ ? state$.getValue() : null;
+	}
+
+	static getParentState$(node) {
+		let states = [];
+		let parentNode = node.parentNode;
+		while (states.length < 2 && parentNode) {
+			if (Component.states.has(parentNode)) {
+				states.push(Component.states.get(parentNode));
+			} else {
+				parentNode = parentNode.parentNode;
+			}
+		}
+		// console.log(states.map(x => JSON.stringify(x.getValue())).join(' - '));
+		if (states.length === 2) {
+			return states[1];
+		} else {
+			return EMPTY;
+		}
+	}
+
+	static getParentState(node) {
+		const state$ = this.getParentState$(node);
+		return state$ ? state$.getValue() : null;
+	}
+
 	static factories = new Map();
-	static states = new Map();
+	static observers = new WeakMap();
+	static instances = new WeakMap();
+	static states = new WeakMap();
 
 	static newState(node, state_ = {}) {
 		function onChange(key, value) {
@@ -119,7 +150,8 @@ export class Component {
 			with(state) {
 				try {
 					return ${expression};
-				} catch (_) {
+				} catch (error) {
+					console.warn('getExpression.error', error, 'state', state);
 					return null;
 				}
 			}
@@ -158,16 +190,54 @@ export class Component {
 
 	static matches(factories, node = document) {
 		const results = new Map();
+		const datas = new WeakMap();
+		const originalNodes = new WeakMap();
+		factories.sort((a, b) => {
+			const isArrayA = Array.isArray(a);
+			const isArrayB = Array.isArray(b);
+			if (isArrayA && isArrayB) {
+				return 0;
+			} else if (isArrayA) {
+				return 1;
+			} else if (isArrayB) {
+				return -1;
+			} else {
+				const isStructureA = a.meta.structure;
+				const isStructureB = b.meta.structure;
+				if (isStructureA && isStructureB) {
+					return 0;
+				} else if (isStructureA) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		});
 		const selectors = factories.map((factory) => (Array.isArray(factory) ? factory[2] : factory.meta.selector));
 		const match = function(node) {
+			let structure = false;
 			selectors.forEach(function(selector, i) {
-				if (node.matches(selector)) {
+				if (!structure && node.matches(selector)) {
 					if (!results.has(node)) {
 						results.set(node, []);
 					}
-					results.get(node).push({ factory: factories[i] });
+					const factory = factories[i];
+					if (!Array.isArray(factory) && factory.meta.structure) {
+						structure = true;
+						const originalNode = node.cloneNode(true);
+						originalNodes.set(node, originalNode);
+					}
+					results.get(node).push(factory);
 				}
 			});
+			if (results.has(node)) {
+				const data = {};
+				Object.keys(node.dataset).forEach(key => {
+					data[key] = node.dataset[key];
+					delete node.dataset[key];
+				});
+				datas.set(node, data);
+			}
 		};
 		function matchNode(node) {
 			if (node) {
@@ -181,7 +251,8 @@ export class Component {
 		}
 		matchNode(node.firstElementChild);
 		// Component.stats(`matches ${results.size}`);
-		return results;
+		return { results, datas, originalNodes };
+		// return results;
 	}
 
 	static register$(factories, target = document) {
@@ -192,20 +263,16 @@ export class Component {
 		const instances = [];
 		this.instances.set(target, instances);
 		const instances$ = new Subject();
-		let results;
-		results = Component.matches(factories, target);
+		const { results, datas, originalNodes } = Component.matches(factories, target);
 		const observingNodes = Array.from(results.keys());
 		const initialize = (node) => {
 			if (results.has(node)) {
-				const data = {};
-				Object.keys(node.dataset).forEach(key => {
-					data[key] = node.dataset[key];
-					// delete node.dataset[key];
-				});
-				console.log('data', data);
-				const tuples = results.get(node);
-				tuples.forEach(tuple => {
-					this.getFactory(tuple.factory).then(factory => {
+				const data = datas.get(node);
+				const originalNode = originalNodes.get(node);
+				const metas = results.get(node);
+				const subject = new Subject();
+				metas.forEach(meta => {
+					this.getFactory(meta).then(factory => {
 						// console.log(factory, factory.prototype);
 						/*
 						const subject = new Subject();
@@ -213,11 +280,11 @@ export class Component {
 						subjects.push(subject);
 						*/
 						if (factory.length > 0) {
-							const subject = new Subject();
-							factory(node, subject, data);
+							factory(node, data, subject, originalNode);
+							// factory(node, node.dataset, subject, originalNode);
 							instances.push(subject);
 						} else {
-							const instance = new factory.prototype.constructor(node);
+							const instance = new factory.prototype.constructor(node, data, subject, originalNode);
 							instances.push(instance);
 						}
 						instances$.next(instances.slice());
@@ -227,11 +294,12 @@ export class Component {
 		};
 		if ('IntersectionObserver' in window) {
 			const observerOptions = {
-				root: target,
+				root: target.parentNode ? target.parentNode : target,
 				rootMargin: '50px',
 				threshold: [0.01, 0.99],
 			};
 			const observer = new IntersectionObserver((entries, observer) => {
+				console.log(entries, observer);
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
 						initialize(entry.target);

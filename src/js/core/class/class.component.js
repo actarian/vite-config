@@ -1,12 +1,12 @@
 import { takeUntil } from 'rxjs';
 import { Component } from '../../core/component/component';
 
-export function ClassComponent(node, unsubscribe$) {
+export function ClassComponent(node, data, unsubscribe$) {
 	const initialKeys = [];
 	Array.prototype.slice.call(node.classList).forEach((value) => {
 		initialKeys.push(value);
 	});
-	const getValue = Component.getExpression(node.dataset.class || node.getAttribute('xclass'));
+	const getValue = Component.getExpression(data.class);
 	const state$ = Component.getState$(node);
 	state$.pipe(
 		takeUntil(unsubscribe$),
@@ -28,5 +28,5 @@ export function ClassComponent(node, unsubscribe$) {
 }
 
 ClassComponent.meta = {
-	selector: `[data-class],[xclass]`,
+	selector: `[data-class]`,
 };
