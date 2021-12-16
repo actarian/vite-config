@@ -19,7 +19,7 @@
     "vite-plugin-imagemin": "0.4.6",
     "vite-plugin-mkcert": "1.5.2",
     "vite-plugin-node": "0.0.15",
-    "vite-plugin-nunjucks": "0.1.9",
+    "vite-plugin-nunjucks": "0.1.10",
     "vite": "2.6.14"
   }
 }
