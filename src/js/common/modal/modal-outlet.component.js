@@ -21,6 +21,8 @@ export function ModalOutletComponent(node, data, unsubscribe$) {
 	const modalNode = node.querySelector('.modal-outlet__modal');
 	const containerNode = node.querySelector('.modal-outlet__container');
 
+	// node.querySelector('.modal-outlet__background');
+
 	window.registerApp$(containerNode).pipe(
 		takeUntil(unsubscribe$)
 	).subscribe(
