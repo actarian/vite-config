@@ -6,15 +6,21 @@ import { Component } from './core/component/component';
 import { CoreModule } from './core/core.module';
 import { FormsModule } from './forms/forms.module';
 
+const module = [
+	...CoreModule,
+	...CommonModule,
+	...FormsModule,
+	...ComponentsModule,
+	AppComponent,
+	['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
+];
+
 function registerApp$(parent = document) {
-	return Component.register$([
-		...CoreModule,
-		...CommonModule,
-		...FormsModule,
-		...ComponentsModule,
-		AppComponent,
-		['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
-	], parent);
+	return Component.register$(module, parent);
+};
+
+function registerApp(parent = document) {
+	return Component.register(module, parent);
 };
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -24,6 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.registerApp$ = registerApp$;
+window.registerApp = registerApp;
 
 function threeshake() {
 	console.log('if this comment is present in the main.js there is a threeshake error!');

@@ -23,11 +23,15 @@ export function ModalOutletComponent(node, data, unsubscribe$) {
 
 	// node.querySelector('.modal-outlet__background');
 
+	window.registerApp(containerNode);
+
+	/*
 	window.registerApp$(containerNode).pipe(
 		takeUntil(unsubscribe$)
 	).subscribe(
 		// instances => { }
 	);
+	*/
 
 	listeners$().pipe(
 		takeUntil(unsubscribe$)

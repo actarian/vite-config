@@ -137,10 +137,10 @@ export class Component {
 		}
 		const proxy = new Proxy(state_, handler);
 		// console.log('proxy', proxy);
-		if (this.states.has(node)) {
+		if (Component.states.has(node)) {
 			throw ('only one state per node');
 		} else {
-			this.states.set(node, change$);
+			Component.states.set(node, change$);
 		}
 		return proxy;
 	}
@@ -162,8 +162,8 @@ export class Component {
 		return new Promise((resolve, reject) => {
 			if (Array.isArray(factory)) {
 				const name = factory[0];
-				if (this.factories.has(name)) {
-					resolve(this.factories.get(name));
+				if (Component.factories.has(name)) {
+					resolve(Component.factories.get(name));
 				} else {
 					const src = factory[1];
 					const key = Object.keys(modules).find(key => key.indexOf(src) !== -1);
@@ -172,7 +172,7 @@ export class Component {
 						loader().then(module => {
 							if (name in module) {
 								factory = module[name];
-								this.factories.set(name, factory);
+								Component.factories.set(name, factory);
 								resolve(factory);
 							} else {
 								reject(`cannot find ${name} in module ${src}`);
@@ -256,12 +256,12 @@ export class Component {
 	}
 
 	static register$(factories, target = document) {
-		if (this.instances.has(target)) {
+		if (Component.instances.has(target)) {
 			throw ('node already registered');
 			// Component.unregister(target);
 		}
 		const instances = [];
-		this.instances.set(target, instances);
+		Component.instances.set(target, instances);
 		const instances$ = new Subject();
 		const { results, datas, originalNodes } = Component.matches(factories, target);
 		const observingNodes = Array.from(results.keys());
@@ -271,24 +271,9 @@ export class Component {
 				const originalNode = originalNodes.get(node);
 				const metas = results.get(node);
 				const subject = new Subject();
-				metas.forEach(meta => {
-					this.getFactory(meta).then(factory => {
-						// console.log(factory, factory.prototype);
-						/*
-						const subject = new Subject();
-						factory(node, subject);
-						subjects.push(subject);
-						*/
-						if (factory.length > 0) {
-							factory(node, data, subject, originalNode);
-							// factory(node, node.dataset, subject, originalNode);
-							instances.push(subject);
-						} else {
-							const instance = new factory.prototype.constructor(node, data, subject, originalNode);
-							instances.push(instance);
-						}
-						instances$.next(instances.slice());
-					});
+				Component.init(node, metas, data, originalNode, subject).then(items => {
+					instances.push(...items);
+					instances$.next(instances.slice());
 				});
 			}
 		};
@@ -299,7 +284,6 @@ export class Component {
 				threshold: [0.01, 0.99],
 			};
 			const observer = new IntersectionObserver((entries, observer) => {
-				console.log(entries, observer);
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
 						initialize(entry.target);
@@ -310,7 +294,7 @@ export class Component {
 			observingNodes.forEach((node) => {
 				observer.observe(node);
 			});
-			this.observers.set(target, observer);
+			Component.observers.set(target, observer);
 		} else {
 			observingNodes.forEach((node) => {
 				initialize(node);
@@ -319,14 +303,49 @@ export class Component {
 		return instances$;
 	}
 
-	static unregister(target = document) {
-		if (this.observers.has(target)) {
-			const observer = this.observers.get(target);
-			observer.disconnect();
-			this.observers.delete(target);
+	static register(factories, target = document) {
+		if (Component.instances.has(target)) {
+			throw ('node already registered');
+			// Component.unregister(target);
 		}
-		if (this.instances.has(target)) {
-			const instances = this.instances.get(target);
+		const instances = [];
+		Component.instances.set(target, instances);
+		const { results, datas, originalNodes } = Component.matches(factories, target);
+		const observingNodes = Array.from(results.keys());
+		return Promise.all(observingNodes.map(node => {
+			const data = datas.get(node);
+			const originalNode = originalNodes.get(node);
+			const metas = results.get(node);
+			const subject = new Subject();
+			return Component.init(node, metas, data, originalNode, subject);
+		})).then(items => {
+			return instances.push(...items);
+		});
+	}
+
+	static init(node, metas, data, originalNode, subject) {
+		return Promise.all(metas.map(meta => {
+			return Component.getFactory(meta).then(factory => {
+				if (factory.length > 0) {
+					factory(node, data, subject, originalNode);
+					// factory(node, node.dataset, subject, originalNode);
+					return subject;
+				} else {
+					const instance = new factory.prototype.constructor(node, data, subject, originalNode);
+					return instance;
+				}
+			});
+		}));
+	}
+
+	static unregister(target = document) {
+		if (Component.observers.has(target)) {
+			const observer = Component.observers.get(target);
+			observer.disconnect();
+			Component.observers.delete(target);
+		}
+		if (Component.instances.has(target)) {
+			const instances = Component.instances.get(target);
 			instances.forEach(instance => {
 				if (typeof instance.destroy === 'function') {
 					instance.destroy();
@@ -334,16 +353,16 @@ export class Component {
 					instance.next();
 				}
 			});
-			this.instances.delete(target);
+			Component.instances.delete(target);
 		}
-		if (this.states.has(target)) {
-			this.states.delete(target);
+		if (Component.states.has(target)) {
+			Component.states.delete(target);
 		}
 	}
 
 	static registeredInstances(target = document) {
-		if (this.instances.has(target)) {
-			const instances = this.instances.get(target);
+		if (Component.instances.has(target)) {
+			const instances = Component.instances.get(target);
 			return instances;
 		} else {
 			return [];
@@ -360,7 +379,7 @@ export class Component {
 		if (true) {
 			return;
 		}
-		const lpt = this.lpt || performance.now();
+		const lpt = Component.lpt || performance.now();
 		const now = performance.now();
 		const div = document.createElement('div');
 		const ts = (key ? key : 'stats') + ' (' + Math.floor((now - lpt) * 100) / 100 + 'ms)';
@@ -371,6 +390,6 @@ export class Component {
 		} else {
 			console.log(ts);
 		}
-		this.lpt = now;
+		Component.lpt = now;
 	}
 }

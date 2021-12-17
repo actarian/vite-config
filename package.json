@@ -15,11 +15,11 @@
     "express": "4.17.1",
     "rollup-plugin-critical": "1.0.8",
     "sass": "1.32.6",
+    "vite": "2.6.14",
     "vite-imagetools": "4.0.1",
     "vite-plugin-imagemin": "0.4.6",
     "vite-plugin-mkcert": "1.5.2",
     "vite-plugin-node": "0.0.15",
-    "vite-plugin-nunjucks": "0.1.10",
-    "vite": "2.6.14"
+    "vite-plugin-nunjucks": "0.1.10"
   }
 }
