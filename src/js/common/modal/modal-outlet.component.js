@@ -1,11 +1,11 @@
 
 import { merge, takeUntil, tap } from 'rxjs';
-import { Component } from '../../core/component/component';
 import { EventService } from '../../core/event/event.service';
+import { newState } from '../../core/state/state';
 import './modal-outlet.component.scss';
 import { ModalService } from './modal.service';
 
-export function ModalOutletComponent(node, data, unsubscribe$) {
+export function ModalOutletComponent(node, data, unsubscribe$, module) {
 	let modal_;
 	let busy_;
 	let lastModal_ = null;
@@ -16,22 +16,12 @@ export function ModalOutletComponent(node, data, unsubscribe$) {
 		<div class="spinner spinner--contrasted"></div>
 	</div>
 	`;
-	const state = Component.newState(node);
+	const state = newState(node);
 
 	const modalNode = node.querySelector('.modal-outlet__modal');
 	const containerNode = node.querySelector('.modal-outlet__container');
 
-	// node.querySelector('.modal-outlet__background');
-
-	window.registerApp(containerNode);
-
-	/*
-	window.registerApp$(containerNode).pipe(
-		takeUntil(unsubscribe$)
-	).subscribe(
-		// instances => { }
-	);
-	*/
+	module.register(containerNode);
 
 	listeners$().pipe(
 		takeUntil(unsubscribe$)
@@ -47,7 +37,7 @@ export function ModalOutletComponent(node, data, unsubscribe$) {
 				// console.log('ModalOutletComponent set modal', modal);
 				const previousModal = modal_;
 				if (previousModal && previousModal.node) {
-					Component.unregister(previousModal.node);
+					module.unregister(previousModal.node);
 				}
 				modal_ = modal;
 				if (modal && modal.node) {
@@ -58,9 +48,7 @@ export function ModalOutletComponent(node, data, unsubscribe$) {
 					modalNode.appendChild(modal.node);
 					state.modal = modal;
 					// !!! todo immediate registration
-					window.registerApp$(modal.node).subscribe(instances => {
-						// console.log('instances', instances);
-					});
+					module.register$(modal.node).subscribe();
 					lastModal_ = modal;
 					updateClassList();
 				} else {

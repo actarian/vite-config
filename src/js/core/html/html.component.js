@@ -1,11 +1,10 @@
 import { takeUntil } from 'rxjs';
-import { Component } from '../../core/component/component';
+import { state$ } from '../state/state';
 
-export function HtmlComponent(node, data, unsubscribe$) {
-	const getValue = Component.getExpression(data.html);
+export function HtmlComponent(node, data, unsubscribe$, module) {
+	const getValue = module.makeFunction(data.html);
 	let innerHTML_;
-	const state$ = Component.getState$(node);
-	state$.pipe(
+	state$(node).pipe(
 		takeUntil(unsubscribe$),
 	).subscribe(state => {
 		const innerHTML = getValue(state);

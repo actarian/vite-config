@@ -2,35 +2,32 @@ import '../css/main-cssvars.scss';
 import { AppComponent } from './app.component';
 import { CommonModule } from './common/common.module';
 import { ComponentsModule } from './components/components.module';
-import { Component } from './core/component/component';
+import { Pow } from './components/pow/pow';
 import { CoreModule } from './core/core.module';
+import { useModule } from './core/module/module';
 import { FormsModule } from './forms/forms.module';
 
-const module = [
-	...CoreModule,
-	...CommonModule,
-	...FormsModule,
-	...ComponentsModule,
-	AppComponent,
-	['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
-];
-
-function registerApp$(parent = document) {
-	return Component.register$(module, parent);
-};
-
-function registerApp(parent = document) {
-	return Component.register(module, parent);
-};
-
-window.addEventListener('DOMContentLoaded', () => {
-	registerApp$(document).subscribe(instances => {
-		// console.log('registerComponents$', instances.length, instances[instances.length - 1]);
-	});
+const app = useModule({
+	imports: [
+		CoreModule,
+		CommonModule,
+		FormsModule,
+		ComponentsModule,
+	],
+	factories: [
+		AppComponent,
+		['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
+	],
+	pipes: [
+		Pow,
+	],
 });
 
-window.registerApp$ = registerApp$;
-window.registerApp = registerApp;
+window.addEventListener('DOMContentLoaded', () => {
+	app.register$(document).subscribe(_ => {
+		// console.log('registerComponents$', _.length, _[_.length - 1]);
+	});
+});
 
 function threeshake() {
 	console.log('if this comment is present in the main.js there is a threeshake error!');

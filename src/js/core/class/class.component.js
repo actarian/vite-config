@@ -1,14 +1,13 @@
 import { takeUntil } from 'rxjs';
-import { Component } from '../../core/component/component';
+import { state$ } from '../state/state';
 
-export function ClassComponent(node, data, unsubscribe$) {
+export function ClassComponent(node, data, unsubscribe$, module) {
 	const initialKeys = [];
 	Array.prototype.slice.call(node.classList).forEach((value) => {
 		initialKeys.push(value);
 	});
-	const getValue = Component.getExpression(data.class);
-	const state$ = Component.getState$(node);
-	state$.pipe(
+	const getValue = module.makeFunction(data.class);
+	state$(node).pipe(
 		takeUntil(unsubscribe$),
 	).subscribe(state => {
 		const value = getValue(state);

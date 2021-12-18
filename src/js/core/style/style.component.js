@@ -1,11 +1,10 @@
 import { takeUntil } from 'rxjs';
-import { Component } from '../../core/component/component';
+import { state$ } from '../state/state';
 
-export function StyleComponent(node, data, unsubscribe$) {
-	const getValue = Component.getExpression(data.style);
+export function StyleComponent(node, data, unsubscribe$, module) {
+	const getValue = module.makeFunction(data.style);
 	let previousStyle;
-	const state$ = Component.getState$(node);
-	state$.pipe(
+	state$(node).pipe(
 		takeUntil(unsubscribe$),
 	).subscribe(state => {
 		const style = getValue(state);

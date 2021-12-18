@@ -1,18 +1,16 @@
 
 import { takeUntil } from 'rxjs';
-import { Component } from '../../core/component/component';
+import { state$ } from '../state/state';
 
-export function IfComponent(node, data, unsubscribe$, originalNode) {
-	delete originalNode.dataset.if;
-	const template = originalNode;
-	// const originalNode = node.cloneNode(true);
-	const getValue = Component.getExpression(data.if);
+export function IfComponent(node, data, unsubscribe$, module, template) {
+	delete template.dataset.if;
+	// const template = node.cloneNode(true);
+	const getValue = module.makeFunction(data.if);
 	const ref = document.createComment('if');
 	node.parentNode.replaceChild(ref, node);
 	let flag_;
 	let clonedNode;
-	const state$ = Component.getState$(ref);
-	state$.pipe(
+	state$(ref).pipe(
 		takeUntil(unsubscribe$),
 	).subscribe(state => {
 		const flag = getValue(state);
@@ -21,15 +19,13 @@ export function IfComponent(node, data, unsubscribe$, originalNode) {
 			if (flag) {
 				clonedNode = template.cloneNode(true);
 				ref.after(clonedNode);
-				window.registerApp$(clonedNode).subscribe(
-					// instances => { }
-				);
+				module.register$(clonedNode).subscribe();
 			} else {
 				if (clonedNode) {
 					clonedNode.remove();
 					clonedNode = null;
 				}
-				Component.unregister(template);
+				module.unregister(template);
 			}
 		}
 	});

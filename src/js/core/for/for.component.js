@@ -1,10 +1,9 @@
 
 import { takeUntil } from 'rxjs';
-import { Component } from '../../core/component/component';
+import { newState, state$ } from '../state/state';
 
-export function ForComponent(node, data, unsubscribe$, originalNode) {
-	delete originalNode.dataset.for;
-	const template = originalNode;
+export function ForComponent(node, data, unsubscribe$, module, template) {
+	delete template.dataset.for;
 	const tokens = getEachExpressionTokens(data.for);
 	const ref = document.createComment('for');
 	node.before(ref);
@@ -13,9 +12,8 @@ export function ForComponent(node, data, unsubscribe$, originalNode) {
 	// console.log(tokens);
 	const nodes = [];
 	const states = [];
-	const getValue = Component.getExpression(tokens.iterable);
-	const state$ = Component.getState$(ref);
-	state$.pipe(
+	const getValue = module.makeFunction(tokens.iterable);
+	state$(ref).pipe(
 		takeUntil(unsubscribe$),
 	).subscribe(state => {
 		const items = getValue(state);
@@ -41,16 +39,14 @@ export function ForComponent(node, data, unsubscribe$, originalNode) {
 				} else {
 					// create
 					const clonedNode = template.cloneNode(true);
-					const state = Component.newState(clonedNode);
+					const state = newState(clonedNode);
 					state[tokens.key] = key;
 					state[tokens.value] = value;
 					ref.parentNode.insertBefore(clonedNode, ref);
 					// const args = [tokens.key, key, tokens.value, value, i, total];
 					// console.log(args);
 					// const skipSubscription = true;
-					window.registerApp$(clonedNode).subscribe(
-						// instances => { }
-					);
+					module.register$(clonedNode).subscribe();
 					nodes.push(clonedNode);
 					states.push(state);
 					// console.log('updateItems.create', i, state);
@@ -59,7 +55,7 @@ export function ForComponent(node, data, unsubscribe$, originalNode) {
 				// remove
 				const clonedNode = nodes[i];
 				clonedNode.remove();
-				Component.unregister(clonedNode);
+				module.unregister(clonedNode);
 			}
 		}
 		nodes.length = array.length;

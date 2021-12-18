@@ -1,12 +1,11 @@
 import { takeUntil } from 'rxjs';
-import { Component } from '../component/component';
+import { state$ } from '../state/state';
 
 const ATTRIBUTES = ['action', 'align', 'allow', 'alt', 'autoplay', 'background', 'bgcolor', 'border', 'checked', 'class', 'color', 'cols', 'colspan', 'content', 'contenteditable', 'contextmenu', 'controls', 'coords', 'csp', 'data', 'datetime', 'decoding', 'default', 'defer', 'dir', 'dirname', 'disabled', 'download', 'draggable', 'enctype', 'enterkeyhint', 'for', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'http-equiv', 'icon', 'id', 'importance', 'integrity', 'intrinsicsize', 'inputmode', 'ismap', 'itemprop', 'keytype', 'kind', 'label', 'lang', 'language', 'loading', 'list', 'loop', 'low', 'max', 'maxlength', 'minlength', 'media', 'method', 'min', 'multiple', 'muted', 'name', 'novalidate', 'pattern', 'placeholder', 'poster', 'preload', 'radiogroup', 'readonly', 'rel', 'required', 'reversed', 'rows', 'rowspan', 'selected', 'span', 'src', 'srcdoc', 'srclang', 'srcset', 'start', 'step', 'style', 'tabindex', 'target', 'title', 'type', 'value', 'width', 'wrap'];
 
-export function AttributeComponent(node, data, unsubscribe$) {
-	const getValue = Component.getExpression(data.attr);
-	const state$ = Component.getState$(node);
-	state$.pipe(
+export function AttributeComponent(node, data, unsubscribe$, module) {
+	const getValue = module.makeFunction(data.attr);
+	state$(node).pipe(
 		takeUntil(unsubscribe$),
 	).subscribe(state => {
 		const value = getValue(state);

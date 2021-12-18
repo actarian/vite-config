@@ -2,7 +2,7 @@
 
 
 import { first, fromEvent, map, takeUntil } from 'rxjs';
-import { Component } from '../../core/component/component';
+import { newState } from '../../core/state/state';
 import { FormControl, FormGroup, Validators } from '../../forms/forms';
 // import { ContactsService } from './contacts.service';
 
@@ -11,9 +11,9 @@ export const FormStrategy = {
 	ApiData: 'api',
 }
 
-export function ContactsComponent(node, data, unsubscribe$) {
+export function ContactsComponent(node, data, unsubscribe$, module) {
 	const strategy = node.getAttribute('strategy') || FormStrategy.InferData;
-	const state = Component.newState(node);
+	const state = newState(node);
 	state.error = true;
 	state.mode = 'idle';
 	const form = new FormGroup({

@@ -1,12 +1,12 @@
 import { first, takeUntil, tap } from 'rxjs';
 import { ModalService } from './common/modal/modal.service';
-import { Component } from './core/component/component';
 import { EventService } from './core/event/event.service';
+import { newState } from './core/state/state';
 
 export function AppComponent(node, data, unsubscribe$) {
 	// console.log('AppComponent.onInit');
 
-	const state = Component.newState(node, {
+	const state = newState(node, {
 		onClick: (item) => {
 			// console.log('AppComponent.onClick', item);
 			openModal(`click event item ${item.title}`);

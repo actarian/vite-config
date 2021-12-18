@@ -1,11 +1,10 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
-import { Component } from '../component/component';
+import { getParentState, getState } from '../state/state';
 import { EventService } from './event.service';
 
 const EVENTS = ['event', 'click', 'dblclick', 'mouseover', 'mouseout', 'mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'mousemove', 'contextmenu', 'touchstart', 'touchmove', 'touchend', 'keydown', 'keyup', 'input', 'change', 'loaded'];
 
-export function EventComponent(node, data, unsubscribe$) {
-	console.log('EventComponent', node);
+export function EventComponent(node, data, unsubscribe$, module) {
 
 	event$().pipe(
 		takeUntil(unsubscribe$),
@@ -23,9 +22,9 @@ export function EventComponent(node, data, unsubscribe$) {
 						EventService.send(eventType, eventData, node, originalEvent);
 					} else {
 						const expression = data[event];
-						const getValue = Component.getExpression(expression);
-						const parentState = Component.getParentState(node);
-						const state = Component.getState(node);
+						const getValue = module.makeFunction(expression);
+						const parentState = getParentState(node);
+						const state = getState(node);
 						const mixedState = { ...parentState, ...state };
 						const value = getValue(mixedState);
 						// console.log('mixedState', mixedState, 'parentState', parentState, 'state', state);
