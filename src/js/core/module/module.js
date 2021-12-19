@@ -1,7 +1,7 @@
 
 // const modules = new WeakMap();
 
-import { Subject } from 'rxjs';
+import { Subject, takeUntil, finalize } from 'rxjs';
 import { deleteState } from '../state/state';
 
 const lazyModules = import.meta.glob('../../modules/*.js');
@@ -52,7 +52,13 @@ export class Module {
 	init(metas, node, data, subject, originalNode) {
 		return Promise.all(metas.map(meta => {
 			return this.getFactory(meta).then(factory => {
-				if (factory.length > 0) {
+				if (typeof factory === 'object') {
+					const submodule = useModule(factory);
+					submodule.observe$(node).pipe(
+						takeUntil(subject),
+						finalize(_ => submodule.unregister(node)),
+					).subscribe();
+				} else if (factory.length > 0) {
 					factory(node, data, subject, this, originalNode);
 					// factory(node, node.dataset, subject, originalNode);
 					return subject;
@@ -72,13 +78,16 @@ export class Module {
 		const selectors = factories.map((factory) => (Array.isArray(factory) ? factory[2] : factory.meta.selector));
 		const flags = { structure: false };
 		const match = function(node) {
+			let lazy = false;
 			let structure = false;
 			const matches = [];
 			results.set(node, matches);
 			selectors.forEach(function(selector, i) {
-				if (!structure && node.matches(selector)) {
+				if (!structure && !lazy && node.matches(selector)) {
 					const factory = factories[i];
-					if (!Array.isArray(factory) && factory.meta.structure) {
+					if (Array.isArray(factory)) {
+						lazy = true;
+					} else if (factory.meta.structure) {
 						structure = true;
 						const originalNode = node.cloneNode(true);
 						originalNodes.set(node, originalNode);
@@ -96,13 +105,13 @@ export class Module {
 			} else {
 				results.delete(node);
 			}
-			return structure;
+			return lazy || structure;
 		};
 		function matchNode(node) {
 			if (node) {
-				const structure = match(node);
+				const skipChilds = match(node);
 				matchNode(node.nextElementSibling);
-				if (!structure) {
+				if (!skipChilds) {
 					matchNode(node.firstElementChild);
 				}
 			}

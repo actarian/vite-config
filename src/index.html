@@ -9,12 +9,11 @@
 
 {% include "src/templates/shared/slider.html" %}
 
-<div class="section" data-section>
+<div class="section">
 	<div class="container">
 		<div class="section__content">
-			<div class="section__time"></div>
-			<div class="section__title" data-attr="{ id: 'id', title: 'title', alt: 'alt' }">Attr component</div>
-			<a href="#" data-attr="{ href: '#id' }">nav to id</a>
+			<div class="section__title">Attr component</div>
+			<div data-attr="{ id: 'id', title: 'title', alt: 'alt' }">{ id: 'id', title: 'title', alt: 'alt' }</div>
 		</div>
 	</div>
 </div>
@@ -80,15 +79,6 @@
 	</div>
 </div>
 
-<div class="section" lazy-section>
-	<div class="container">
-		<div class="section__content">
-			<div class="section__time"></div>
-			<div class="section__title">I'm a lazy loaded component</div>
-		</div>
-	</div>
-</div>
-
 <div class="section" data-section>
 	<div class="container">
 		<div class="section__content">
@@ -98,7 +88,7 @@
 	</div>
 </div>
 
-<div class="section" lazy-section>
+<div class="section section--lazy-component" data-lazy-component>
 	<div class="container">
 		<div class="section__content">
 			<div class="section__time"></div>
@@ -107,11 +97,11 @@
 	</div>
 </div>
 
-<div class="section" data-section>
+<div class="section section--lazy-module" data-lazy-module>
 	<div class="container">
-		<div class="section__content">
+		<div class="section__content" data-lazy-module-component>
 			<div class="section__time"></div>
-			<div class="section__title">I'm a component</div>
+			<div class="section__title">I'm a lazy loaded module</div>
 		</div>
 	</div>
 </div>

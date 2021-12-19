@@ -16,7 +16,8 @@ const app = useModule({
 	],
 	factories: [
 		AppComponent,
-		['LazySectionComponent', './modules/lazy-section.component.js', '[lazy-section]'],
+		['LazyComponent', './modules/lazy.component.js', '[data-lazy-component]'],
+		['LazyModule', './modules/lazy.module.js', '[data-lazy-module]'],
 	],
 	pipes: [
 		Pow,
