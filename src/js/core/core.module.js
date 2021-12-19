@@ -6,12 +6,14 @@ import { HtmlComponent } from './html/html.component';
 import { IfComponent } from './if/if.component';
 import { StyleComponent } from './style/style.component';
 
-export const CoreModule = [
-	AttributeComponent,
-	ClassComponent,
-	EventComponent,
-	ForComponent,
-	HtmlComponent,
-	IfComponent,
-	StyleComponent,
-];
+export const CoreModule = {
+	factories: [
+		AttributeComponent,
+		ClassComponent,
+		EventComponent,
+		ForComponent,
+		HtmlComponent,
+		IfComponent,
+		StyleComponent,
+	],
+};

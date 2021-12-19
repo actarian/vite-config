@@ -186,7 +186,8 @@
 
 .modal__header {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
+	margin-bottom: 10px;
 
 	.sidebar & {
 		position: absolute;
@@ -201,6 +202,12 @@
 			height: 20px;
 		}
 	}
+}
+
+.modal__title {
+	font-size: 25px;
+	font-weight: $font-bold;
+    line-height: 1.2;
 }
 
 .modal__inner {
@@ -238,7 +245,7 @@
 }
 
 .modal--generic {
-	min-width: 300px;
+	min-width: 355px;
     background: white;
     padding: 20px;
     border-radius: 10px;

@@ -7,15 +7,13 @@
 {% extends "src/templates/layout.html" %}
 {% block main %}
 
-<!-- set item = { title: 'Contacts' } -->
-<!-- include "src/templates/shared/hero.html" -->
 {% include "src/templates/shared/slider.html" %}
 
-<div class="section" data-section>
+<div class="section">
 	<div class="container">
 		<div class="section__content">
-			<div class="section__time"></div>
-			<div class="section__title" data-attr="{ id: 'id', title: 'title', alt: 'alt' }">I'm a component</div>
+			<div class="section__title">Attr component</div>
+			<div data-attr="{ id: 'id', title: 'title', alt: 'alt' }">{ id: 'id', title: 'title', alt: 'alt' }</div>
 		</div>
 	</div>
 </div>
@@ -37,9 +35,9 @@
 <div class="section">
 	<div class="container">
 		<div class="section__content">
-			<div class="section__title">Each component</div>
+			<div class="section__title">For component</div>
 			<div class="listing--items">
-				<div class="listing__item" data-for="let item of items">
+				<div class="listing__item" data-click="onClick(item)" data-attr="{ title: item.title }" data-for="let item of items">
 					<div data-html="item.title"></div>
 				</div>
 			</div>
@@ -81,15 +79,6 @@
 	</div>
 </div>
 
-<div class="section" lazy-section>
-	<div class="container">
-		<div class="section__content">
-			<div class="section__time"></div>
-			<div class="section__title">I'm a lazy loaded component</div>
-		</div>
-	</div>
-</div>
-
 <div class="section" data-section>
 	<div class="container">
 		<div class="section__content">
@@ -99,7 +88,7 @@
 	</div>
 </div>
 
-<div class="section" lazy-section>
+<div class="section section--lazy-component" data-lazy-component>
 	<div class="container">
 		<div class="section__content">
 			<div class="section__time"></div>
@@ -108,11 +97,11 @@
 	</div>
 </div>
 
-<div class="section" data-section>
+<div class="section section--lazy-module" data-lazy-module>
 	<div class="container">
-		<div class="section__content">
+		<div class="section__content" data-lazy-module-component>
 			<div class="section__time"></div>
-			<div class="section__title">I'm a component</div>
+			<div class="section__title">I'm a lazy loaded module</div>
 		</div>
 	</div>
 </div>

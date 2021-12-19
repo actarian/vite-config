@@ -1,24 +1,12 @@
-// import { fromEvent, takeUntil, tap } from 'rxjs';
-// import { ModalService } from '../../common/modal/modal.service';
-import { Component } from '../../core/component/component';
+import { getState } from '../../core';
 
-export class ModalComponent extends Component {
-
-	onInit() {
-		console.log('I\'m a modal!');
-		/*
-		const button = this.node.querySelector('.btn--close');
-		if (button) {
-			fromEvent(button, 'click').pipe(
-				tap(event => ModalService.reject()),
-				takeUntil(this.unsubscribe$),
-			).subscribe();
-		}
-		*/
+export function ModalComponent(node, data, unsubscribe$) {
+	const state = getState(node);
+	if (state) {
+		console.log('ModalComponent.state', state);
 	}
-
-	static meta = {
-		selector: '[data-modal]',
-	};
-
 }
+
+ModalComponent.meta = {
+	selector: '[data-modal]',
+};

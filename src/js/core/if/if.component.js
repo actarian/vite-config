@@ -1,47 +1,37 @@
 
-import { Component } from '../../core/component/component';
+import { takeUntil } from 'rxjs';
+import { state$ } from '../state/state';
 
-export class IfComponent extends Component {
-
-	get flag() {
-		return this.flag_;
-	}
-	set flag(flag) {
-		if (this.flag_ !== flag) {
-			this.flag_ = flag;
+export function IfComponent(node, data, unsubscribe$, module, template) {
+	delete template.dataset.if;
+	// const template = node.cloneNode(true);
+	const getValue = module.makeFunction(data.if);
+	const ref = document.createComment('if');
+	node.parentNode.replaceChild(ref, node);
+	let flag_;
+	let clonedNode;
+	state$(ref).pipe(
+		takeUntil(unsubscribe$),
+	).subscribe(state => {
+		const flag = getValue(state);
+		if (flag_ !== flag) {
+			flag_ = flag;
 			if (flag) {
-				const clonedNode = this.template.cloneNode(true);
-				this.clonedNode = clonedNode;
-				this.ref.after(clonedNode);
-				window.registerApp$(clonedNode).subscribe(
-					// instances => { }
-				);
+				clonedNode = template.cloneNode(true);
+				ref.after(clonedNode);
+				module.observe$(clonedNode).subscribe();
 			} else {
-				if (this.clonedNode) {
-					this.clonedNode.remove();
-					this.clonedNode = null;
+				if (clonedNode) {
+					clonedNode.remove();
+					clonedNode = null;
 				}
-				Component.unregister(this.template);
+				module.unregister(template);
 			}
 		}
-	}
+	});
+}
 
-	onInit() {
-		const node = this.node;
-		this.originalNode = node.cloneNode(true);
-		const ref = this.ref = this.node = document.createComment('if');
-		node.parentNode.replaceChild(ref, node);
-		const template = this.template = node.cloneNode(true);
-		template.removeAttribute('xif');
-		template.removeAttribute('data-if');
-		const getValue = Component.getExpression(node.dataset.if || node.getAttribute('xif'));
-		this.state$.subscribe(state => {
-			this.flag = getValue(state);
-		});
-	}
-
-	static meta = {
-		selector: '[data-if],[xif]',
-	};
-
+IfComponent.meta = {
+	selector: '[data-if]',
+	structure: true,
 }

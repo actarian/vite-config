@@ -9,7 +9,7 @@
 				<!-- slide -->
 				<div class="slider__slide">
 					<div class="card">
-						<img width="800" height="400" srcset="{{ ('./assets/slider/0' + i + '.jpg?w=400;800;1600&format=webp') | imageTools | safe }}" loading="lazy" />
+						<img width="800" height="400" srcset="{{ ('./assets/slider/0' + i + '.jpg?w=400;800;1600&format=webp') | imageTools | safe }}" {% if i > 1 %}loading="lazy" {% endif %}/>
 						<!-- <img width="800" height="400" src=" ('./assets/slider/0' + i + '.jpg?w=1600&h=800&webp') | imageTools " loading="lazy" /> -->
 					</div>
 				</div>

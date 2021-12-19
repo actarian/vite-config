@@ -1,103 +1,93 @@
 
 import { merge, takeUntil, tap } from 'rxjs';
-import { Component } from '../../core/component/component';
+import { newState } from '../../core';
 import { EventService } from '../../core/event/event.service';
 import './modal-outlet.component.scss';
 import { ModalService } from './modal.service';
 
-export class ModalOutletComponent extends Component {
+export function ModalOutletComponent(node, data, unsubscribe$, module) {
+	let modal_;
+	let busy_;
+	let lastModal_ = null;
+	node.innerHTML = /* html */ `
+	<div class="modal-outlet__container">
+		<div class="modal-outlet__background" data-event="close"></div>
+		<div class="modal-outlet__modal"></div>
+		<div class="spinner spinner--contrasted"></div>
+	</div>
+	`;
+	const state = newState(node);
 
-	get modal() {
-		return this.modal_;
+	const modalNode = node.querySelector('.modal-outlet__modal');
+	const containerNode = node.querySelector('.modal-outlet__container');
+
+	module.register(containerNode);
+
+	listeners$().pipe(
+		takeUntil(unsubscribe$)
+	).subscribe();
+
+	function listeners$() {
+		return merge(modal$(), busy$(), event$());
 	}
 
-	get busy() {
-		return this.busy_;
-	}
-
-	set busy(busy) {
-		if (this.busy_ !== busy) {
-			this.busy_ = busy;
-			this.updateClassList();
-		}
-	}
-
-	onInit() {
-		this.lastModal_ = null;
-		const node = this.node;
-		node.innerHTML = /* html */ `
-		<div class="modal-outlet__container">
-			<div class="modal-outlet__background" data-event="close"></div>
-			<div class="modal-outlet__modal"></div>
-			<div class="spinner spinner--contrasted"></div>
-		</div>
-		`;
-		this.modalNode = node.querySelector('.modal-outlet__modal');
-		this.containerNode = node.querySelector('.modal-outlet__container');
-		window.registerApp$(this.containerNode).subscribe(
-			// instances => { }
-		);
-		this.listeners$().pipe(
-			takeUntil(this.unsubscribe$)
-		).subscribe();
-		node.modalOutlet__ = this;
-	}
-
-	listeners$() {
-		return merge(this.modal$(), this.busy$(), this.event$());
-	}
-
-	modal$() {
+	function modal$() {
 		return ModalService.modal$.pipe(
 			tap(modal => {
 				// console.log('ModalOutletComponent set modal', modal);
-				const previousModal = this.modal_;
+				const previousModal = modal_;
 				if (previousModal && previousModal.node) {
-					Component.unregister(previousModal.node);
+					module.unregister(previousModal.node);
 				}
-				this.modal_ = modal;
+				modal_ = modal;
 				if (modal && modal.node) {
-					const lastModal = this.lastModal_;
+					const lastModal = lastModal_;
 					if (lastModal) {
-						this.modalNode.removeChild(lastModal.node);
+						modalNode.removeChild(lastModal.node);
 					}
-					this.modalNode.appendChild(modal.node);
-					window.registerApp$(modal.node).subscribe(
-						// instances => { }
-					);
-					this.lastModal_ = modal;
-					this.updateClassList();
+					modalNode.appendChild(modal.node);
+					state.modal = modal;
+					// !!! todo immediate registration
+					module.observe$(modal.node).subscribe();
+					lastModal_ = modal;
+					updateClassList();
 				} else {
-					this.updateClassList();
+					updateClassList();
 				}
 			}),
 		)
 	}
 
-	busy$() {
+	function busy$() {
 		return ModalService.busy$.pipe(
-			tap(busy => this.busy = busy),
+			tap(busy => {
+				if (busy_ !== busy) {
+					busy_ = busy;
+					updateClassList();
+				}
+			}),
 		)
 	}
 
-	event$() {
+	function event$() {
 		// return EventService.bubble$(this.node).pipe(
 		// filter(event => event.type === 'close'),
-		return EventService.filter$(this.node, 'close').pipe(
+		return EventService.bubble$(node, 'close').pipe(
+			// return EventService.filter$(node, 'close').pipe(
 			tap(_ => {
-				// console.log('ModalOutletComponent.event$.close');
+				console.log('ModalOutletComponent.event$.close');
 				ModalService.reject();
 			}),
 		)
 	}
 
-	getClassList() {
+	function getClassList() {
 		const classList = {
 			'modal-outlet__container': true,
-			busy: this.busy_ === true,
-			active: this.modal_ != null
+			busy: busy_ === true,
+			active: modal_ != null
 		};
-		const lastModal = this.lastModal_;
+		const lastModal = lastModal_;
 		if (lastModal) {
 			classList[lastModal.modal.type] = true;
 			classList[lastModal.modal.position] = true;
@@ -105,25 +95,12 @@ export class ModalOutletComponent extends Component {
 		return Object.keys(classList).filter(key => classList[key] === true).join(' ');
 	}
 
-	updateClassList() {
-		const classList = this.getClassList();
-		this.containerNode.setAttribute('class', classList);
+	function updateClassList() {
+		const classList = getClassList();
+		containerNode.setAttribute('class', classList);
 	}
-
-	static getModalOutlet(node) {
-		let modalOutlet = null;
-		let parentNode = node.parentNode;
-		while (parentNode) {
-			if (parentNode.modalOutlet__) {
-				modalOutlet = parentNode.modalOutlet__;
-			}
-			parentNode = modalOutlet ? null : parentNode.parentNode;
-		}
-		return modalOutlet;
-	}
-
-	static meta = {
-		selector: '[data-modal-outlet]',
-	};
-
 }
+
+ModalOutletComponent.meta = {
+	selector: '[data-modal-outlet]',
+};

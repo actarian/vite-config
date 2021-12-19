@@ -6,12 +6,14 @@ import { ControlText } from './controls/control-text.component';
 import { ControlTextarea } from './controls/control-textarea.component';
 import { TestComponent } from './test/test.component';
 
-export const FormsModule = [
-	ControlCheckfield,
-	ControlCheckbox,
-	ControlPrivacy,
-	ControlSelect,
-	ControlText,
-	ControlTextarea,
-	TestComponent,
-];
+export const FormsModule = {
+	factories: [
+		ControlCheckfield,
+		ControlCheckbox,
+		ControlPrivacy,
+		ControlSelect,
+		ControlText,
+		ControlTextarea,
+		TestComponent,
+	],
+};

@@ -1,27 +1,27 @@
-import { Component } from '../component/component';
+import { takeUntil } from 'rxjs';
+import { state$ } from '../state/state';
 
 const ATTRIBUTES = ['action', 'align', 'allow', 'alt', 'autoplay', 'background', 'bgcolor', 'border', 'checked', 'class', 'color', 'cols', 'colspan', 'content', 'contenteditable', 'contextmenu', 'controls', 'coords', 'csp', 'data', 'datetime', 'decoding', 'default', 'defer', 'dir', 'dirname', 'disabled', 'download', 'draggable', 'enctype', 'enterkeyhint', 'for', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'http-equiv', 'icon', 'id', 'importance', 'integrity', 'intrinsicsize', 'inputmode', 'ismap', 'itemprop', 'keytype', 'kind', 'label', 'lang', 'language', 'loading', 'list', 'loop', 'low', 'max', 'maxlength', 'minlength', 'media', 'method', 'min', 'multiple', 'muted', 'name', 'novalidate', 'pattern', 'placeholder', 'poster', 'preload', 'radiogroup', 'readonly', 'rel', 'required', 'reversed', 'rows', 'rowspan', 'selected', 'span', 'src', 'srcdoc', 'srclang', 'srcset', 'start', 'step', 'style', 'tabindex', 'target', 'title', 'type', 'value', 'width', 'wrap'];
 
-export class AttributeComponent extends Component {
-
-	onInit() {
-		const node = this.node;
-		const getValue = Component.getExpression(node.dataset.attr || node.getAttribute('xattr'));
-		this.state$.subscribe(state => {
-			const value = getValue(state);
+export function AttributeComponent(node, data, unsubscribe$, module) {
+	const getValue = module.makeFunction(data.attr);
+	state$(node).pipe(
+		takeUntil(unsubscribe$),
+	).subscribe(state => {
+		const value = getValue(state);
+		if (value) {
 			Object.keys(value).forEach(key => {
 				if (ATTRIBUTES.indexOf(key) !== -1) {
 					node.setAttribute(key, value[key]);
 				}
 			});
-		});
-	}
-
-	static meta = {
-		selector: `[data-attr],[xattr]`,
-	};
-
+		}
+	});
 }
+
+AttributeComponent.meta = {
+	selector: `[data-attr]`,
+};
 
 /*
 accept		<form>, <input>		List of types the server accepts, typically a file type.
