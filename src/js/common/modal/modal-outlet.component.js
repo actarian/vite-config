@@ -1,7 +1,7 @@
 
 import { merge, takeUntil, tap } from 'rxjs';
+import { newState } from '../../core';
 import { EventService } from '../../core/event/event.service';
-import { newState } from '../../core/state/state';
 import './modal-outlet.component.scss';
 import { ModalService } from './modal.service';
 
@@ -48,7 +48,7 @@ export function ModalOutletComponent(node, data, unsubscribe$, module) {
 					modalNode.appendChild(modal.node);
 					state.modal = modal;
 					// !!! todo immediate registration
-					module.register$(modal.node).subscribe();
+					module.observe$(modal.node).subscribe();
 					lastModal_ = modal;
 					updateClassList();
 				} else {

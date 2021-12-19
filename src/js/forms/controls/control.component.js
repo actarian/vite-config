@@ -1,9 +1,12 @@
 
 
 
+import { getState } from '../../core';
 import { mapErrors_ } from '../helpers/helpers';
 
 export function getForm(node) {
+	const state = getState(node);
+	return state ? state.form : null;
 	let form = null;
 	let parentNode = node.parentNode;
 	while (parentNode) {
@@ -21,6 +24,7 @@ export function getControl(node, fieldName) {
 		return;
 	}
 	const form = getForm(node);
+	// console.log(form);
 	if (!form) {
 		return;
 	}
@@ -47,9 +51,3 @@ export function updateControl(node, control) {
 function hasValue(control) {
 	return control.value != null && control.value != '';
 }
-
-/*
-function getField(node) {
-	return node.getAttribute('data-field');
-}
-*/

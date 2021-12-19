@@ -70,10 +70,11 @@ export class Module {
 		const originalNodes = new WeakMap();
 		factories = Module.sortFactories(factories);
 		const selectors = factories.map((factory) => (Array.isArray(factory) ? factory[2] : factory.meta.selector));
+		const flags = { structure: false };
 		const match = function(node) {
+			let structure = false;
 			const matches = [];
 			results.set(node, matches);
-			let structure = false;
 			selectors.forEach(function(selector, i) {
 				if (!structure && node.matches(selector)) {
 					const factory = factories[i];
@@ -95,12 +96,15 @@ export class Module {
 			} else {
 				results.delete(node);
 			}
+			return structure;
 		};
 		function matchNode(node) {
 			if (node) {
-				match(node);
+				const structure = match(node);
 				matchNode(node.nextElementSibling);
-				matchNode(node.firstElementChild);
+				if (!structure) {
+					matchNode(node.firstElementChild);
+				}
 			}
 		}
 		if ('matches' in node) {
@@ -134,7 +138,7 @@ export class Module {
 		});
 	}
 
-	register$(node = document) {
+	observe$(node = document) {
 		const store = this.store;
 		if (store.instances.has(node)) {
 			throw ('node already registered');
@@ -220,7 +224,7 @@ export class Module {
 	}
 
 	static makeFunction(expression, module) {
-		console.log(expression, module);
+		// console.log(expression, module);
 	// static makeFunction(expression, params = ['$instance']) {
 			expression = Module.parseExpression(expression);
 		/*

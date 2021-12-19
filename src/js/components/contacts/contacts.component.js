@@ -2,7 +2,7 @@
 
 
 import { first, fromEvent, map, takeUntil } from 'rxjs';
-import { newState } from '../../core/state/state';
+import { newState } from '../../core';
 import { FormControl, FormGroup, Validators } from '../../forms/forms';
 // import { ContactsService } from './contacts.service';
 
@@ -12,10 +12,7 @@ export const FormStrategy = {
 }
 
 export function ContactsComponent(node, data, unsubscribe$, module) {
-	const strategy = node.getAttribute('strategy') || FormStrategy.InferData;
-	const state = newState(node);
-	state.error = true;
-	state.mode = 'idle';
+	const strategy = data.strategy || FormStrategy.InferData;
 	const form = new FormGroup({
 		firstName: new FormControl(null, [Validators.RequiredValidator()]),
 		lastName: new FormControl(null, [Validators.RequiredValidator()]),
@@ -36,6 +33,7 @@ export function ContactsComponent(node, data, unsubscribe$, module) {
 	});
 	const controls = form.controls;
 	node.form_ = form;
+	const state = newState(node, { form, test, success: false });
 	/*
 	form.changes$.pipe(
 		takeUntil(unsubscribe$)
@@ -90,10 +88,11 @@ export function ContactsComponent(node, data, unsubscribe$, module) {
 
 	function onSubmit(event) {
 		// console.log('ContactsComponent.onSubmit', form.value);
+		event.preventDefault();
 		if (form.flags.valid) {
 			// console.log('ContactsComponent.onSubmit.valid!');
+			state.success = true;
 		} else {
-			event.preventDefault();
 			form.touched = true;
 			const invalids = Array.prototype.slice.call(node.querySelectorAll('.invalid'));
 			if (invalids.length) {

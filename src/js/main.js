@@ -24,7 +24,7 @@ const app = useModule({
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-	app.register$(document).subscribe(_ => {
+	app.observe$(document).subscribe(_ => {
 		// console.log('registerComponents$', _.length, _[_.length - 1]);
 	});
 });

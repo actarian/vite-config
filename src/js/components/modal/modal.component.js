@@ -1,4 +1,4 @@
-import { getState } from '../../core/state/state';
+import { getState } from '../../core';
 
 export function ModalComponent(node, data, unsubscribe$) {
 	const state = getState(node);

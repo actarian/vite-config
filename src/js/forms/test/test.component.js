@@ -1,11 +1,13 @@
 import { fromEvent, merge, takeUntil, tap } from 'rxjs';
-import { environment } from '../../environment';
+// import { environment } from '../../environment';
 import { getForm } from "../controls/control.component";
 
 export function TestComponent(node, data, unsubscribe$) {
+	/*
 	if (environment.flags.production) {
 		return;
 	}
+	*/
 	const form = getForm(node);
 	if (!form) {
 		return;

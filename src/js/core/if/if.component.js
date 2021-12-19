@@ -19,7 +19,7 @@ export function IfComponent(node, data, unsubscribe$, module, template) {
 			if (flag) {
 				clonedNode = template.cloneNode(true);
 				ref.after(clonedNode);
-				module.register$(clonedNode).subscribe();
+				module.observe$(clonedNode).subscribe();
 			} else {
 				if (clonedNode) {
 					clonedNode.remove();

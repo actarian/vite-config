@@ -11,9 +11,12 @@
 {% include "src/templates/shared/hero.html" %}
 <!-- include "src/templates/shared/slider.html" -->
 
-<div class="contacts">
-	<div class="container">
-		<form class="form" name="form" role="form" novalidate="" autocomplete="off" action="#" data-contacts>
+<div class="contacts" data-contacts>
+	<div class="container" data-if="success">
+		Richiesta inviata
+	</div>
+	<div class="container" data-if="!success">
+		<form class="form" name="form" role="form" novalidate="" autocomplete="off" action="#">
 			<div class="form__fields">
 				{% set control = { key: 'checkField' } %}
 				{% include "src/templates/forms/control-checkfield.html" %}

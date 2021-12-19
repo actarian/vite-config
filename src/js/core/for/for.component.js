@@ -46,7 +46,7 @@ export function ForComponent(node, data, unsubscribe$, module, template) {
 					// const args = [tokens.key, key, tokens.value, value, i, total];
 					// console.log(args);
 					// const skipSubscription = true;
-					module.register$(clonedNode).subscribe();
+					module.observe$(clonedNode).subscribe();
 					nodes.push(clonedNode);
 					states.push(state);
 					// console.log('updateItems.create', i, state);

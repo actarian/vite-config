@@ -1,49 +1,51 @@
-import { BehaviorSubject, EMPTY } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
+const empty = new BehaviorSubject(null);
 const states = new WeakMap();
 
 export function state$(node) {
-	let state$ = null;
+	let state = null;
 	let parentNode = node; // .parentNode;
-	while (!state$ && parentNode) {
+	while (!state && parentNode) {
 		if (states.has(parentNode)) {
-			state$ = states.get(parentNode);
+			state = states.get(parentNode);
+			// console.log('state$', state);
 		} else {
 			parentNode = parentNode.parentNode;
 		}
 	}
-	return state$ || EMPTY;
+	return state || empty;
 }
 
 export function getState(node) {
 	const state = state$(node);
+	// console.log('getState', state);
 	return state ? state.getValue() : null;
 }
 
-export function getParentState$(node) {
-	let results = [];
-	let parentNode = node.parentNode;
-	while (results.length < 2 && parentNode) {
+export function upstate$(node) {
+	const results = [];
+	let parentNode = node;
+	while (parentNode) {
 		if (states.has(parentNode)) {
 			results.push(states.get(parentNode));
-		} else {
-			parentNode = parentNode.parentNode;
 		}
+		parentNode = parentNode.parentNode;
 	}
-	// console.log(results.map(x => JSON.stringify(x.getValue())).join(' - '));
-	if (results.length === 2) {
-		return results[1];
-	} else {
-		return EMPTY;
-	}
+	return results;
 }
 
-export function getParentState(node) {
-	const state$ = getParentState$(node);
-	return state$ ? state$.getValue() : null;
+export function getUpstate(node) {
+	const getUpstate = {};
+	const states = upstate$(node).map(x => x.getValue());
+	while (states.length) {
+		Object.assign(getUpstate, states.shift());
+	}
+	return getUpstate;
 }
 
 export function newState(node, state_ = {}) {
+	/*
 	function onChange(key, value) {
 		const className = `state-${key}`;
 		if (typeof value === 'string' || typeof value === 'number') {
@@ -55,6 +57,7 @@ export function newState(node, state_ = {}) {
 	Object.keys(state_).forEach(key => {
 		onChange(key, state_[key]);
 	});
+	*/
 	// console.log(Array.from(node.classList));
 	const change$ = new BehaviorSubject(state_);
 	const handler = {
@@ -66,7 +69,9 @@ export function newState(node, state_ = {}) {
 		*/
 		set(state, key, value) {
 			const status = Reflect.set(...arguments);
+			/*
 			onChange(key, value);
+			*/
 			change$.next({ ...state });
 			// console.log(state, key, value, status);
 			return status;
@@ -78,6 +83,7 @@ export function newState(node, state_ = {}) {
 		throw ('only one state per node');
 	} else {
 		states.set(node, change$);
+		// console.log('newState', change$);
 	}
 	return proxy;
 }
@@ -86,4 +92,35 @@ export function deleteState(node) {
 	if (states.has(node)) {
 		states.delete(node);
 	}
+}
+
+export function inspectTree() {
+	const tree = [];
+	function each(node, tree_) {
+		if (node) {
+			let branch = tree_;
+			if (states.has(node)) {
+				branch = [];
+				tree_.push({ state: states.get(node), node, tree: each(node.firstElementChild, branch) })
+			} else if (node.firstElementChild) {
+				each(node.firstElementChild, branch);
+			}
+			if (node.nextElementSibling) {
+				each(node.nextElementSibling, tree_);
+			}
+		}
+		return tree_;
+	}
+	each(document.firstElementChild, tree);
+	return tree;
+}
+
+export function inspectParent(node) {
+	const parents = [];
+	let parentNode = node;
+	while (parentNode) {
+		parents.push({ node: parentNode, state: states.get(parentNode) });
+		parentNode = parentNode.parentNode;
+	}
+	return parents;
 }

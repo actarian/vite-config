@@ -1,7 +1,7 @@
 import { first, takeUntil, tap } from 'rxjs';
 import { ModalService } from './common/modal/modal.service';
+import { newState } from './core';
 import { EventService } from './core/event/event.service';
-import { newState } from './core/state/state';
 
 export function AppComponent(node, data, unsubscribe$) {
 	// console.log('AppComponent.onInit');
