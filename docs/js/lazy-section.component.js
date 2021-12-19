@@ -1,1 +1,0 @@
-function c(o,e,t){const n=Math.floor(performance.now()/100)/10;console.log("LazySectionComponent.onInit",n),o.querySelector(".section__time").innerHTML=`LazySectionComponent.onInit at ${n}s`}export{c as LazySectionComponent};

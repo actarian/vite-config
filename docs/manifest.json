@@ -8,18 +8,27 @@
       "_vendor.js"
     ],
     "dynamicImports": [
-      "js/modules/lazy-section.component.js"
+      "js/modules/lazy.component.js",
+      "js/modules/lazy.module.js"
     ],
     "css": [
       "assets/main.css"
     ]
   },
-  "js/modules/lazy-section.component.js": {
-    "file": "js/lazy-section.component.js",
-    "src": "js/modules/lazy-section.component.js",
+  "js/modules/lazy.component.js": {
+    "file": "js/lazy.component.js",
+    "src": "js/modules/lazy.component.js",
     "isDynamicEntry": true,
     "css": [
-      "assets/lazy-section.component.css"
+      "assets/lazy.component.css"
+    ]
+  },
+  "js/modules/lazy.module.js": {
+    "file": "js/lazy.module.js",
+    "src": "js/modules/lazy.module.js",
+    "isDynamicEntry": true,
+    "css": [
+      "assets/lazy.module.css"
     ]
   }
 }
